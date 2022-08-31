@@ -15,11 +15,13 @@ class UserManage extends Component {
     }
 
     async componentDidMount() {
-        let res = await userService.getUsers(1);
+        let res = await userService.getUsers('all');
         if (res && res.errCode === 0) {
             this.setState({
-                // arrUsers: [res.users],
-                arrUsers: [...this.state.arrUsers, res.users],
+                // arrUsers: res.users,
+                arrUsers: [...res.users],
+            }, () => {
+                console.log('current this.state.arrUsers: ', this.state.arrUsers);
             });
         }
     }
