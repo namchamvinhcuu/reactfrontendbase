@@ -100,7 +100,7 @@ class EditUserModal extends Component {
 
                         <ModalBody>
                             <Row>
-                                <Col md={6}>
+                                <Col md={12}>
                                     <FormGroup>
                                         <Label for="edit_Email">
                                             Email
@@ -112,27 +112,7 @@ class EditUserModal extends Component {
                                             placeholder="Enter email"
                                             value={this.state.email}
                                             // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'email')
-                                            }}
-                                        />
-                                    </FormGroup>
-                                </Col>
-                                <Col md={6}>
-                                    <FormGroup>
-                                        <Label for="edit_Password">
-                                            Password
-                                        </Label>
-                                        <Input
-                                            id="edit_Password"
-                                            name="password"
-                                            type="password"
-                                            placeholder="Enter password"
-                                            value={this.state.password}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'password')
-                                            }}
+                                            disabled
                                         />
                                     </FormGroup>
                                 </Col>
