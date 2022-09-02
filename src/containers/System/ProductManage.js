@@ -3,11 +3,14 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 class ProductManage extends Component {
 
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
 
+        }
     }
 
-    componentDidMount() {
+    componentDidMount = async () => {
     }
 
 
