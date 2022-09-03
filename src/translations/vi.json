@@ -1,4 +1,19 @@
 {
+    "home-header": {
+        "medical-specialty": "Chuyên Khoa",
+        "find-doctor-by-specialty": "Tìm bác sỹ theo chuyên khoa",
+        "medical-institutions": "Cơ Sở Y Tế",
+        "choose-hospital-clinic": "Chọn bệnh viện/phòng khám",
+        "doctor": "Bác Sỹ",
+        "choose-doctor": "Chọn bác sỹ giỏi",
+        "fee": "Gói Khám",
+        "general-examination": "Khám sức khỏe tổng quát",
+        "support": "Hỗ trợ"
+    },
+    "banner": {
+        "medical-background": "Nền Tảng Y Tế",
+        "holistic-health-care": "Chăm sóc sức khỏe toàn diện"
+    },
     "common": {
         "add": "Thêm",
         "edit": "Sửa",

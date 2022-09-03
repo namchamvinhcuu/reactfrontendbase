@@ -1,4 +1,19 @@
 {
+    "home-header": {
+        "medical-specialty": "Medical Specialty",
+        "find-doctor-by-specialty": "Find doctors by specialty",
+        "medical-institutions": "Medical Institutions",
+        "choose-hospital-clinic": "Choose hospital/clinic",
+        "doctor": "Doctor",
+        "choose-doctor": "Choose doctor",
+        "fee": "Fee",
+        "general-examination": "General Examination",
+        "support": "Support"
+    },
+    "banner": {
+        "medical-background": "Medical Background",
+        "holistic-health-care": "Holistic Health Care"
+    },
     "common": {
         "add": "Add",
         "edit": "Edit",
