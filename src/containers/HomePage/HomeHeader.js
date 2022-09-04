@@ -3,9 +3,18 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { languages } from '../../utils';
+
+import { changeLanguage } from '../../store/actions'
+
 import './HomeHeader.scss'
 
 class HomeHeader extends Component {
+
+    changeLanguage = async (language) => {
+        //fire redux actions
+        this.props.changeLanguage(language);
+    }
 
     render() {
         return (
@@ -56,7 +65,7 @@ class HomeHeader extends Component {
                                     </b>
                                 </div>
                                 <div className='sub-title'>
-                                    <FormattedMessage id='home-header.health-check' />
+                                    <FormattedMessage id='home-header.general-examination' />
                                 </div>
                             </div>
                         </div>
@@ -68,8 +77,16 @@ class HomeHeader extends Component {
                                     <FormattedMessage id='home-header.support' />
                                 </span>
                             </div>
-                            <div className='language-vi'>VN</div>
-                            <div className='language-en'>EN</div>
+                            <div className={this.props.language === languages.VI ? 'language-vi active' : 'language-vi'}>
+                                <span onClick={() => this.changeLanguage(languages.VI)}>
+                                    VN
+                                </span>
+                            </div>
+                            <div className={this.props.language === languages.EN ? 'language-en active' : 'language-en'}>
+                                <span onClick={() => this.changeLanguage(languages.EN)}>
+                                    EN
+                                </span>
+                            </div>
                         </div>
 
                     </div>
@@ -157,6 +174,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        changeLanguage: (language) => dispatch(changeLanguage(language))
     };
 };
 

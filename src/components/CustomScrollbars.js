@@ -7,11 +7,11 @@ class CustomScrollbars extends Component {
 
     ref = React.createRef();
 
-    getScrollLeft =()=>{
+    getScrollLeft = () => {
         const scrollbars = this.ref.current;
         return scrollbars.getScrollLeft();
     }
-    getScrollTop =()=>{
+    getScrollTop = () => {
         const scrollbars = this.ref.current;
         return scrollbars.getScrollTop();
     }
@@ -84,7 +84,7 @@ class CustomScrollbars extends Component {
     };
 
     render() {
-        const { className, disableVerticalScroll, disableHorizontalScroll, children,...otherProps } = this.props;
+        const { className, disableVerticalScroll, disableHorizontalScroll, children, ...otherProps } = this.props;
         return (
             <Scrollbars
                 ref={this.ref}
@@ -97,6 +97,8 @@ class CustomScrollbars extends Component {
                 renderTrackVertical={disableVerticalScroll ? this.renderNone : this.renderTrackVertical}
                 renderThumbHorizontal={disableHorizontalScroll ? this.renderNone : this.renderThumbHorizontal}
                 renderThumbVertical={disableVerticalScroll ? this.renderNone : this.renderThumbVertical}
+
+                style={{ height: '100vh', width: '100%' }}
             >
                 {children}
             </Scrollbars>

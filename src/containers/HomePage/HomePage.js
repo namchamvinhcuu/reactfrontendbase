@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import HomeHeader from './HomeHeader';
 
+import Specialty from './Section/Specialty';
+
 class HomePage extends Component {
 
     render() {
@@ -11,7 +13,10 @@ class HomePage extends Component {
         // let linkToRedirect = isLoggedIn ? '/system/user-manage' : '/login';
 
         return (
-            <HomeHeader />
+            <>
+                <HomeHeader />
+                <Specialty />
+            </>
         );
     }
 
