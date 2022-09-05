@@ -8,7 +8,7 @@ import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 
 import * as userService from '../../services/userService'
-import { userLoginSuccess } from '../../store/actions';
+// import { userLoginSuccess } from '../../store/actions';
 
 class Login extends Component {
     constructor(props) {

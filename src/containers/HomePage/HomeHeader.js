@@ -5,11 +5,14 @@ import { FormattedMessage } from 'react-intl';
 
 import { languages } from '../../utils';
 
-import { changeLanguage } from '../../store/actions'
+// import { changeLanguage } from '../../store/actions'
+import * as actions from "../../store/actions";
 
 import './HomeHeader.scss'
 
 class HomeHeader extends Component {
+
+
 
     changeLanguage = async (language) => {
         //fire redux actions
@@ -17,6 +20,9 @@ class HomeHeader extends Component {
     }
 
     render() {
+
+        const { language } = this.props;
+
         return (
             <>
                 <div className='home-header-container'>
@@ -77,12 +83,12 @@ class HomeHeader extends Component {
                                     <FormattedMessage id='home-header.support' />
                                 </span>
                             </div>
-                            <div className={this.props.language === languages.VI ? 'language-vi active' : 'language-vi'}>
+                            <div className={language === languages.VI ? 'language-vi active' : 'language-vi'}>
                                 <span onClick={() => this.changeLanguage(languages.VI)}>
                                     VN
                                 </span>
                             </div>
-                            <div className={this.props.language === languages.EN ? 'language-en active' : 'language-en'}>
+                            <div className={language === languages.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => this.changeLanguage(languages.EN)}>
                                     EN
                                 </span>
@@ -174,7 +180,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeLanguage: (language) => dispatch(changeLanguage(language))
+        changeLanguage: (language) => dispatch(actions.changeLanguage(language))
     };
 };
 

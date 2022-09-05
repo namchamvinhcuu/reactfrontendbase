@@ -23,13 +23,31 @@ const adminPersistConfig = {
 const userPersistConfig = {
     ...persistCommonConfig,
     key: 'user',
-    whitelist: ['isLoggedIn', 'userInfo']
+    whitelist: ['isLoggedIn', 'userInfo', 'language']
 };
 
-export default (history) => combineReducers({
+const appPersistConfig = {
+    ...persistCommonConfig,
+    key: 'app',
+    whitelist: ['language']
+};
+
+const reduxCombineReducers = (history) => combineReducers({
     router: connectRouter(history),
     admin: persistReducer(adminPersistConfig, adminReducer),
     user: persistReducer(userPersistConfig, userReducer),
+    app: persistReducer(appPersistConfig, appReducer),
     // user: userReducer,
-    app: appReducer
-})
+    // app: appReducer
+});
+
+export default reduxCombineReducers;
+
+// export default reduxPersist = (history) => combineReducers({
+//     router: connectRouter(history),
+//     admin: persistReducer(adminPersistConfig, adminReducer),
+//     user: persistReducer(userPersistConfig, userReducer),
+//     app: persistReducer(appPersistConfig, appReducer),
+//     // user: userReducer,
+//     // app: appReducer
+// })
