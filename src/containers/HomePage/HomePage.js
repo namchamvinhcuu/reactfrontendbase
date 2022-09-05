@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import HomeHeader from './HomeHeader';
 
 import Specialty from './Section/Specialty';
+import MedicalInstitution from './Section/MedicalInstitution';
 
 class HomePage extends Component {
 
@@ -16,6 +17,7 @@ class HomePage extends Component {
             <>
                 <HomeHeader />
                 <Specialty />
+                <MedicalInstitution />
             </>
         );
     }
