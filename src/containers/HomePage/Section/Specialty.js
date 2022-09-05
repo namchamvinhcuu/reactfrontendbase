@@ -8,6 +8,43 @@ import "slick-carousel/slick/slick-theme.css";
 
 import './Specialty.scss'
 
+import nhiKhoa from "../../../assets/images/175620-nhi-khoa.jpg";
+
+
+const SampleNextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{
+                ...style
+                // , backgroundColor: '#959595'
+                , display: 'flex'
+                , alighItems: 'center'
+                , justifyContent: 'center'
+            }}
+            onClick={onClick}
+        />
+    );
+}
+
+const SamplePrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{
+                ...style
+                // , backgroundColor: '#959595'
+                , display: 'flex'
+                , alighItems: 'center'
+                , justifyContent: 'center'
+            }}
+            onClick={onClick}
+        />
+    );
+}
+
 class Specialty extends Component {
 
     constructor(props) {
@@ -21,12 +58,55 @@ class Specialty extends Component {
     }
 
 
+
     render() {
+
+        let settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            nextArrow: <SampleNextArrow />,
+            prevArrow: <SamplePrevArrow />
+        };
         return (
-            <div className="text-center" style={{ border: '1px solid red', margin: '20px 0', padding: '20px 0' }}>
-                <h1>Hello Specialty Component</h1>
+            <div className='section-specicalty-container'>
+                <div className='section-specicalty-header'>
+                    <span className='header-title'>Chuyên khoa phổ biến</span>
+                </div>
+                <div className='section-specicalty-content'>
+                    <Slider {...settings}>
+                        <div className='specicalty-img'>
+                            <div style={{
+                                backgroundImage: `url(${nhiKhoa})`
+                                , backgroundRepeat: 'no-repeat'
+                                , backgroundSize: 'cover'
+                                , backgroundPosition: 'center'
+                                , height: '100%'
+                                , width: '100%'
+                            }}></div>
+                            <p>Test</p>
+                        </div>
+                        <div className='specicalty-img'>
+                            <h3>2</h3>
+                        </div>
+                        <div className='specicalty-img'>
+                            <h3>3</h3>
+                        </div>
+                        <div className='specicalty-img'>
+                            <h3>4</h3>
+                        </div>
+                        <div className='specicalty-img'>
+                            <h3>5</h3>
+                        </div>
+                        <div className='specicalty-img'>
+                            <h3>6</h3>
+                        </div>
+                    </Slider>
+                </div>
             </div>
-        )
+        );
     }
 
 }
