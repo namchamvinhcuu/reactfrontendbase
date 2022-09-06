@@ -4,12 +4,18 @@ import { connect } from 'react-redux';
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
 import { adminMenu } from './menuApp';
+import { languages } from '../../utils';
 import './Header.scss';
 
 class Header extends Component {
 
+    changeLanguage = async (language) => {
+        //fire redux actions
+        this.props.changeLanguage(language);
+    }
+
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, language } = this.props;
 
         return (
             <div className="header-container">
@@ -18,10 +24,31 @@ class Header extends Component {
                     <Navigator menus={adminMenu} />
                 </div>
 
-                {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
+
+                <div className='change-language'>
+                    {/** chuyển đổi ngôn ngữ */}
+                    <div className={language === languages.VI ? 'change-language-vi active' : 'change-language-vi'}>
+                        <span onClick={() => this.changeLanguage(languages.VI)}>
+                            VN
+                        </span>
+                    </div>
+                    <div className={language === languages.EN ? 'change-language-en active' : 'change-language-en'}>
+                        <span onClick={() => this.changeLanguage(languages.EN)}>
+                            EN
+                        </span>
+                    </div>
+
+                    {/* nút logout */}
+                    <div
+                        className="btn btn-logout"
+                        onClick={processLogout}
+                        title='Log Out'>
+                        <i className="fas fa-sign-out-alt"></i>
+                    </div>
                 </div>
+
+
+
             </div>
         );
     }
@@ -32,12 +59,14 @@ const mapStateToProps = state => {
     return {
         // isLoggedIn: state.admin.isLoggedIn,
         isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         processLogout: () => dispatch(actions.processLogout()),
+        changeLanguage: (language) => dispatch(actions.changeLanguage(language))
     };
 };
 

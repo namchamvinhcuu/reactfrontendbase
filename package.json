@@ -37,6 +37,9 @@
     "slick-carousel": "^1.8.1",
     "typescript": "^4.3.2"
   },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -57,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-error-overlay": "6.0.9"
   }
 }
