@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
-import UserManage from '../containers/System/UserManage';
-// import ProductManage from '../containers/System/ProductManage';
-import UserManageRedux from '../containers/System/UserManageRedux';
+
+import ProductManage from '../containers/System/ProductManage';
 import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
+
+import UserManage from '../containers/System/UserManage';
+import UserManageRedux from '../containers/System/UserManageRedux';
 import Header from '../containers/Header/Header';
 
 class System extends Component {
@@ -17,9 +19,9 @@ class System extends Component {
                     <div className="system-list">
                         <Switch>
                             <Route path="/system/user-manage" component={UserManage} />
-                            {/* <Route path="/system/product-manage" component={ProductManage} /> */}
                             <Route path="/system/user-manage-redux" component={UserManageRedux} />
-                            {/* <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} /> */}
+                            <Route path="/system/product-manage" component={ProductManage} />
+                            <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>

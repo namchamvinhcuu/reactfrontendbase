@@ -14,11 +14,15 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
-            passWord: '',
-            isShowPassword: false,
-            resErrorMessage: '',
+            ...this.initModal
         }
+    }
+
+    initModal = {
+        userName: 'nam@gmail.com',
+        passWord: '1234@',
+        isShowPassword: false,
+        resErrorMessage: '',
     }
 
     handleOnChangeInputUserName = (event) => {
@@ -55,10 +59,7 @@ class Login extends Component {
 
             } else {
                 this.setState({
-                    userName: '',
-                    passWord: '',
-                    isShowPassword: false,
-                    resErrorMessage: '',
+                    ...this.initModal
                 });
 
                 this.props.userLoginSuccess(res.user);

@@ -45,12 +45,21 @@
             "header": "Hệ thống",
             "system-administrator": {
                 "header": "Quản trị hệ thống",
-                "user-manage": "Quản lý người sử dụng",
                 "product-manage": "Quản lý gói",
                 "register-package-group-or-account": "Đăng ký gói dịch vụ cho nhóm/tài khoản"
             },
             "system-parameter": {
                 "header": "Tham số hệ thống"
+            },
+            "user-manage": {
+                "header": "Quản trị người dùng",
+                "without-redux": "Không dùng redux",
+                "with-redux": "Sử dụng redux"
+            },
+            "clinic-manage": {
+                "header": "Quản trị phòng khám",
+                "without-redux": "Không dùng redux",
+                "with-redux": "Sử dụng redux"
             }
         }
     },

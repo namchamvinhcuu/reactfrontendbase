@@ -51,6 +51,11 @@
             },
             "system-parameter": {
                 "header": "System-parameter"
+            },
+            "user-manage": {
+                "header": "User Management",
+                "without-redux": "Without Redux",
+                "with-redux": "With Redux"
             }
         }
     },

@@ -49,7 +49,6 @@ class App extends Component {
                     <div className="main-container">
                         <ConfirmModal />
 
-
                         <div className="content-container">
                             <CustomScrollbars>
                                 <Switch>
