@@ -9,12 +9,9 @@ import {
     , Form
     , Row
     , Col
-    , FormGroup
-    , Label
-    , Input
+    , Modal
     , Button
-    , Modal, ModalHeader, ModalBody, ModalFooter
-} from 'reactstrap';
+} from 'react-bootstrap';
 
 class CreateUserModal extends Component {
 
@@ -89,32 +86,29 @@ class CreateUserModal extends Component {
 
     render() {
         return (
-            <div className="text-center" >
+            <React.Fragment>
                 <Modal
-                    isOpen={this.props.isOpen}
-                    /*toggle={() => { this.toggle(); }}*/ /**Dùng để đóng modal khi click ra ngoài */
+                    show={this.props.isOpen}
+                    onHide={() => { this.toggle(); }}
+                    backdrop="static"
+                    keyboard={false}
                     size='lg'
                     centered
                 >
-                    <ModalHeader
-                        toggle={() => { this.toggle(); }}
-                    >
-                        Create User
-                    </ModalHeader>
 
                     <Form>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Create new user</Modal.Title>
+                        </Modal.Header>
 
-                        <ModalBody>
+                        <Modal.Body>
                             <Row>
-                                <Col md={6}>
-                                    <FormGroup>
-                                        <Label for="create_Email">
-                                            Email
-                                        </Label>
-                                        <Input
-                                            id="create_Email"
-                                            name="email"
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Control
                                             type="email"
+                                            name="email"
                                             placeholder="Enter email"
                                             value={this.state.email}
                                             // bsSize="sm"
@@ -122,17 +116,15 @@ class CreateUserModal extends Component {
                                                 this.handleOnChangeInput(event, 'email')
                                             }}
                                         />
-                                    </FormGroup>
+
+                                    </Form.Group>
                                 </Col>
-                                <Col md={6}>
-                                    <FormGroup>
-                                        <Label for="create_Password">
-                                            Password
-                                        </Label>
-                                        <Input
-                                            id="create_Password"
-                                            name="password"
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
                                             type="password"
+                                            name="password"
                                             placeholder="Enter password"
                                             value={this.state.password}
                                             // bsSize="sm"
@@ -140,19 +132,17 @@ class CreateUserModal extends Component {
                                                 this.handleOnChangeInput(event, 'password')
                                             }}
                                         />
-                                    </FormGroup>
+
+                                    </Form.Group>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={6}>
-                                    <FormGroup>
-                                        <Label for="create_FirstName">
-                                            First Name
-                                        </Label>
-                                        <Input
-                                            id="create_FirstName"
-                                            name="firstname"
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>First Name</Form.Label>
+                                        <Form.Control
                                             type="text"
+                                            name="firstname"
                                             placeholder="Enter first name"
                                             value={this.state.firstName}
                                             // bsSize="sm"
@@ -160,17 +150,15 @@ class CreateUserModal extends Component {
                                                 this.handleOnChangeInput(event, 'firstName')
                                             }}
                                         />
-                                    </FormGroup>
+
+                                    </Form.Group>
                                 </Col>
-                                <Col md={6}>
-                                    <FormGroup>
-                                        <Label for="create_LastName">
-                                            Last Name
-                                        </Label>
-                                        <Input
-                                            id="create_LastName"
-                                            name="lastName"
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Last Name</Form.Label>
+                                        <Form.Control
                                             type="text"
+                                            name="lastName"
                                             placeholder="Enter last name"
                                             value={this.state.lastName}
                                             // bsSize="sm"
@@ -178,19 +166,17 @@ class CreateUserModal extends Component {
                                                 this.handleOnChangeInput(event, 'lastName')
                                             }}
                                         />
-                                    </FormGroup>
+
+                                    </Form.Group>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={12}>
-                                    <FormGroup>
-                                        <Label for="create_Address">
-                                            Address
-                                        </Label>
-                                        <Input
-                                            id="create_Address"
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Address</Form.Label>
+                                        <Form.Control
+                                            as="textarea" rows={2}
                                             name="address"
-                                            type="text"
                                             placeholder="Enter address"
                                             value={this.state.address}
                                             // bsSize="sm"
@@ -198,27 +184,28 @@ class CreateUserModal extends Component {
                                                 this.handleOnChangeInput(event, 'address')
                                             }}
                                         />
-                                    </FormGroup>
+
+                                    </Form.Group>
+
                                 </Col>
 
                             </Row>
-                        </ModalBody>
+                        </Modal.Body>
 
-                        <ModalFooter>
-                            <Button color="primary" onClick={() => { this.handleCreateNewUser(); }}>
+                        <Modal.Footer>
+                            <Button variant="primary" onClick={() => { this.handleCreateNewUser(); }}>
                                 <i className="fas fa-save"></i>
-                                Save
+                                &nbsp;Save
                             </Button>
-                            <Button color="secondary" onClick={() => { this.setState({ ...this.initUser }); }}>
+                            <Button variant="secondary" onClick={() => { this.setState({ ...this.initUser }); }}>
                                 <i className="fas fa-redo"></i>
-                                Reset
+                                &nbsp;Reset
                             </Button>
-                        </ModalFooter>
-
+                        </Modal.Footer>
                     </Form>
 
                 </Modal>
-            </div>
+            </React.Fragment>
         )
     }
 

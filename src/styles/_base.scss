@@ -12,40 +12,59 @@ html {
   overflow         : hidden;
 }
 
+.InovuaReactDataGrid__column-header__menu-tool {
+  display: none !important;
+}
+
 label {
   margin-top: 10px;
 }
 
-.btn {
-  padding               : 5px;
-  border                : none;
-  cursor                : pointer;
-  font-weight           : 700;
-  // height             : 30px;
-  // line-height        : 30px;
-  -moz-user-select      : none;
-  -webkit-user-select   : none;
-  user-select           : none;
-  min-width             : 100px;
+i {
+  margin: 0px 3px;
+}
 
-  i {
-    // font-size: $base-size - 3px;
-    margin: 0px 5px;
+.btn-in-table {
+  margin: 0 2px;
+}
+
+.btn-group-col {
+  margin         : 3px 0;
+  display        : flex;
+  justify-content: right;
+
+  button {
+    margin-left: 2px;
   }
 }
 
-.btn-edit,
-.btn-add,
-.btn-delete,
-.btn-assign {
-  background-color: $colormain;
-  color           : $common-text-color;
 
-  &:hover {
-    color           : $common-text-color;
-    background-color: darken($colormain, 5);
-  }
-}
+
+// .btn {
+//   padding               : 5px;
+//   border                : none;
+//   cursor                : pointer;
+//   font-weight           : 700;
+//   // height             : 30px;
+//   // line-height        : 30px;
+//   -moz-user-select      : none;
+//   -webkit-user-select   : none;
+//   user-select           : none;
+//   min-width             : 100px;
+// }
+
+// .btn-edit,
+// .btn-add,
+// .btn-delete,
+// .btn-assign {
+//   background-color: $colormain;
+//   color           : $common-text-color;
+
+//   &:hover {
+//     color           : $common-text-color;
+//     background-color: darken($colormain, 5);
+//   }
+// }
 
 #password:invalid {
   font-family: $fontmain; // Fixed TH hien thi placeholder cho EDGE
@@ -89,47 +108,47 @@ label {
     color         : $colormain;
   }
 
-  .content {
-    margin            : 15px 30px;
-    box-shadow        : 2px 2px 4px 0 $box-shadow-color;
-    -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
-  }
+  // .content {
+  //   margin            : 15px 30px;
+  //   box-shadow        : 2px 2px 4px 0 $box-shadow-color;
+  //   -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
+  // }
 }
 
-.modal {
-  .modal-dialog {
-    .modal-content {
-      .modal-header {
-        padding         : 0 10px;
-        height          : 35px;
-        background-color: $colormain;
-        color           : $common-text-color;
+// .modal {
+//   .modal-dialog {
+//     .modal-content {
+//       .modal-header {
+//         padding            : 0 10px;
+//         // height          : 35px;
+//         background-color   : $colormain;
+//         color              : $common-text-color;
 
-        .modal-title {
-          line-height: 35px;
-          font-weight: 500;
-          font-size  : $base-size + 1px;
-        }
+//         .modal-title {
+//           line-height: 35px;
+//           font-weight: 500;
+//           font-size  : $base-size + 1px;
+//         }
 
-        button {
-          &.close {
-            background-color: transparent;
-            color           : white;
-            border          : none;
-            font-size       : $base-size + 10px;
-          }
-        }
+//         // button {
+//         //   &.close {
+//         //     background-color: transparent;
+//         //     color           : white;
+//         //     border          : none;
+//         //     font-size       : $base-size + 10px;
+//         //   }
+//         // }
 
-        // .btn-close {
-        //   position: absolute;
-        //   color   : $common-text-color;
+//         // .btn-close {
+//         //   position: absolute;
+//         //   color   : $common-text-color;
 
-        //   i {
-        //     line-height: 35px;
-        //     font-size  : $base-size + 2px;
-        //   }
-        // }
-      }
-    }
-  }
-}
+//         //   i {
+//         //     line-height: 35px;
+//         //     font-size  : $base-size + 2px;
+//         //   }
+//         // }
+//       }
+//     }
+//   }
+// }

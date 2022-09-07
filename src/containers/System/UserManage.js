@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 
 import './UserManage.scss';
 
+import { Button } from 'react-bootstrap';
+
+
+
 import { emitter } from '../../utils/emitter';
 
 import * as userService from '../../services/userService'
@@ -24,6 +28,40 @@ class UserManage extends Component {
     componentDidMount = async () => {
         await this.getUsers('all');
     }
+
+    columns = [
+        { name: 'id', header: 'Id', defaultVisible: false, type: 'number' },
+        { name: 'email', header: 'Email', minWidth: 50, defaultFlex: 2 },
+        { name: 'firstName', header: 'First Name', maxWidth: 1000, defaultFlex: 1 },
+        { name: 'lastName', header: 'Last Name', maxWidth: 1000, defaultFlex: 1 },
+        { name: 'address', header: 'Address', maxWidth: 1000, defaultFlex: 1 },
+        {
+            name: '', header: 'Action', maxWidth: 1000, defaultFlex: 1, render: (params) => {
+
+                return (
+                    <React.Fragment>
+                        <Button
+                            className='btn-in-table'
+                            variant="outline-warning"
+                            onClick={() => { this.toggleEditUserModal(params.data); }}
+                        >
+                            <i className="fas fa-pencil-alt"></i>
+                        </Button>
+                        <Button
+                            className='btn-in-table'
+                            variant="outline-danger"
+                            onClick={() => { this.handleDeleteUser(params.data); }}
+                        >
+                            <i className="fas fa-trash-alt"></i>
+                        </Button>
+                    </React.Fragment>
+                )
+            }
+
+        },
+    ]
+
+    gridStyle = { height: 'auto' }
 
     getUsers = async (id) => {
         let res = await userService.getUsers(id);
@@ -109,18 +147,21 @@ class UserManage extends Component {
                 />
                 <div className='title text-center'>User Management</div>
                 <div className='container'>
-                    <div className='mx-1'>
-                        <button className='btn btn-primary'
-                            onClick={() => {
-                                this.toggleCreateUserModal();
-                            }}
+                    <div className='my-1'>
+                        <Button
+                            onClick={() => { this.toggleCreateUserModal(); }}
                         >
                             <i className="fas fa-plus"></i>
-                            &nbsp;Add New
-                        </button>
+                            Create
+                        </Button>
                     </div>
-                    <table id="customers">
-                        <thead>
+
+                    {/* <Table
+                        striped
+                        responsive
+                        hover
+                    >
+                        <thead className="thead-dark">
                             <tr>
                                 <th>Email</th>
                                 <th>First Name</th>
@@ -138,15 +179,37 @@ class UserManage extends Component {
                                         <td>{item.lastName}</td>
                                         <td>{item.address}</td>
                                         <td className='text-center'>
-                                            <button className='btn-edit' onClick={() => { this.toggleEditUserModal(item); }}><i className="fas fa-pencil-alt"></i></button>
-                                            <button className='btn-delete' onClick={() => { this.handleDeleteUser(item); }}><i className="fas fa-trash-alt"></i></button>
+                                            <Button
+                                                className='btn-in-table'
+                                                variant="outline-warning"
+                                                onClick={() => { this.toggleEditUserModal(item); }}
+                                            >
+                                                <i className="fas fa-pencil-alt"></i>
+                                            </Button>
+                                            <Button
+                                                className='btn-in-table'
+                                                variant="outline-danger"
+                                                onClick={() => { this.handleDeleteUser(item); }}
+                                            >
+                                                <i className="fas fa-trash-alt"></i>
+                                            </Button>
                                         </td>
                                     </tr>
                                 )
                             })}
 
                         </tbody>
-                    </table>
+                    </Table> */}
+
+                    {
+
+                    }
+                    {/* <ReactDataGrid
+                        idProperty="id"
+                        columns={this.columns}
+                        dataSource={this.state.arrUsers && this.state.arrUsers.length > 0 ? this.state.arrUsers : []}
+                        style={this.gridStyle}
+                    /> */}
                 </div>
             </>
         );

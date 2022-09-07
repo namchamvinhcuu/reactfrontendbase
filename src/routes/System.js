@@ -6,7 +6,7 @@ import ProductManage from '../containers/System/ProductManage';
 import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
 
 import UserManage from '../containers/System/UserManage';
-import UserManageRedux from '../containers/System/UserManageRedux';
+import UserManageRedux from '../containers/System/Admin/UserManageRedux';
 import Header from '../containers/Header/Header';
 
 class System extends Component {
