@@ -6,13 +6,14 @@ import './UserManage.scss';
 
 import { Button } from 'react-bootstrap';
 import {
-    Table
-    , TableBody
-    , TableCell
-    , TableContainer
-    , TableHead
-    , TablePagination
-    , TableRow
+    // Table
+    // , TableBody
+    // , TableCell
+    // , TableContainer
+    // , TableHead
+    // , TablePagination
+    // , TableRow
+    Button as MuiButton
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material';
 import MaterialTable from "material-table";
@@ -178,12 +179,14 @@ class UserManage extends Component {
                 <div className='title text-center'>User Management</div>
                 <div className='container'>
                     <div className='my-1'>
-                        <Button
+                        <MuiButton
+                            variant="contained"
+                            color="secondary"
                             onClick={() => { this.toggleCreateUserModal(); }}
                         >
                             <i className="fas fa-plus"></i>
                             Create
-                        </Button>
+                        </MuiButton>
                     </div>
 
                     {/* <TableContainer >
