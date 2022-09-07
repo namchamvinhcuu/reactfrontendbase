@@ -5,8 +5,19 @@ import { connect } from 'react-redux';
 import './UserManage.scss';
 
 import { Button } from 'react-bootstrap';
+import {
+    Table
+    , TableBody
+    , TableCell
+    , TableContainer
+    , TableHead
+    , TablePagination
+    , TableRow
+} from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
+import MaterialTable from "material-table";
 
-
+import { DataGrid } from '@mui/x-data-grid';
 
 import { emitter } from '../../utils/emitter';
 
@@ -22,46 +33,18 @@ class UserManage extends Component {
             arrUsers: [],
             isOpenCreateUserModal: false,
             isOpenEditUserModal: false,
+            page: 0,
+            rowsPerPage: 10
         }
     }
+
+    defaultMaterialTheme = createTheme();
+
 
     componentDidMount = async () => {
         await this.getUsers('all');
     }
 
-    columns = [
-        { name: 'id', header: 'Id', defaultVisible: false, type: 'number' },
-        { name: 'email', header: 'Email', minWidth: 50, defaultFlex: 2 },
-        { name: 'firstName', header: 'First Name', maxWidth: 1000, defaultFlex: 1 },
-        { name: 'lastName', header: 'Last Name', maxWidth: 1000, defaultFlex: 1 },
-        { name: 'address', header: 'Address', maxWidth: 1000, defaultFlex: 1 },
-        {
-            name: '', header: 'Action', maxWidth: 1000, defaultFlex: 1, render: (params) => {
-
-                return (
-                    <React.Fragment>
-                        <Button
-                            className='btn-in-table'
-                            variant="outline-warning"
-                            onClick={() => { this.toggleEditUserModal(params.data); }}
-                        >
-                            <i className="fas fa-pencil-alt"></i>
-                        </Button>
-                        <Button
-                            className='btn-in-table'
-                            variant="outline-danger"
-                            onClick={() => { this.handleDeleteUser(params.data); }}
-                        >
-                            <i className="fas fa-trash-alt"></i>
-                        </Button>
-                    </React.Fragment>
-                )
-            }
-
-        },
-    ]
-
-    gridStyle = { height: 'auto' }
 
     getUsers = async (id) => {
         let res = await userService.getUsers(id);
@@ -132,9 +115,56 @@ class UserManage extends Component {
         }
     }
 
+    columns = [
+        { field: 'id', headerName: 'ID', hide: true },
+        { field: 'email', headerName: 'Email', width: 230 },
+        { field: 'firstName', headerName: 'First name', width: 130 },
+        { field: 'lastName', headerName: 'Last name', width: 130 },
+
+        {
+            field: 'address',
+            headerName: 'Address',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 160,
+            // valueGetter: (params) =>
+            //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        },
+    ];
+
+    // columns = [
+    //     { id: 'id', name: 'ID', hide: true },
+    //     { id: 'email', name: 'Email', width: 130 },
+    //     { id: 'firstName', name: 'First name', width: 130 },
+    //     { id: 'lastName', name: 'Last name', width: 130 },
+
+    //     {
+    //         id: 'address',
+    //         name: 'Address',
+    //         // description: 'This column has a value getter and is not sortable.',
+    //         sortable: false,
+    //         width: 160,
+    //         // valueGetter: (params) =>
+    //         //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    //     },
+    // ];
+
+    handleChangePage = (event, newPage) => {
+        this.setState({
+            page: newPage,
+        });
+    };
+
+    handleChangeRowsPerPage = (event) => {
+        this.setState({
+            rowsPerPage: +event.target.value,
+            page: 0,
+        });
+    };
+
     render() {
         return (
-            <>
+            <React.Fragment>
                 <CreateUserModal
                     isOpen={this.state.isOpenCreateUserModal}
                     toggleCreateUserModal={this.toggleCreateUserModal}
@@ -156,62 +186,61 @@ class UserManage extends Component {
                         </Button>
                     </div>
 
-                    {/* <Table
-                        striped
-                        responsive
-                        hover
-                    >
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>Email</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Address</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.arrUsers && this.state.arrUsers.map((item) => {
-                                return (
-                                    <tr key={item.id}>
-                                        <td>{item.email}</td>
-                                        <td>{item.firstName}</td>
-                                        <td>{item.lastName}</td>
-                                        <td>{item.address}</td>
-                                        <td className='text-center'>
-                                            <Button
-                                                className='btn-in-table'
-                                                variant="outline-warning"
-                                                onClick={() => { this.toggleEditUserModal(item); }}
-                                            >
-                                                <i className="fas fa-pencil-alt"></i>
-                                            </Button>
-                                            <Button
-                                                className='btn-in-table'
-                                                variant="outline-danger"
-                                                onClick={() => { this.handleDeleteUser(item); }}
-                                            >
-                                                <i className="fas fa-trash-alt"></i>
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-
-                        </tbody>
-                    </Table> */}
-
-                    {
-
-                    }
-                    {/* <ReactDataGrid
-                        idProperty="id"
-                        columns={this.columns}
-                        dataSource={this.state.arrUsers && this.state.arrUsers.length > 0 ? this.state.arrUsers : []}
-                        style={this.gridStyle}
+                    {/* <TableContainer >
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {this.columns.map((column) => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.arrUsers && this.state.arrUsers.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {this.columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[1, 10, 25, 100]}
+                        component="div"
+                        count={this.state.arrUsers.length}
+                        rowsPerPage={this.state.rowsPerPage}
+                        page={this.state.page}
+                        onPageChange={this.handleChangePage}
+                        onRowsPerPageChange={this.handleChangeRowsPerPage}
                     /> */}
+
+                    <div style={{ height: 400, width: '100%' }}>
+                        <DataGrid
+
+                            rows={this.state.arrUsers.length ? this.state.arrUsers : []}
+                            columns={this.columns}
+                            pageSize={1}
+                            rowsPerPageOptions={[1]}
+                            checkboxSelection={false}
+                        />
+                    </div>
                 </div>
-            </>
+            </React.Fragment>
         );
     }
 
