@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import './UserManage.scss';
 
-import { Button } from 'react-bootstrap';
 import {
     // Table
     // , TableBody
@@ -13,7 +12,8 @@ import {
     // , TableHead
     // , TablePagination
     // , TableRow
-    Button as MuiButton
+    Button
+    , Paper
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material';
 import MaterialTable from "material-table";
@@ -26,6 +26,12 @@ import * as userService from '../../services/userService'
 
 import CreateUserModal from './CreateUserModal';
 import EditUserModal from './EditUserModal';
+
+const dataGridSx = {
+    margin: "0 auto",
+    height: "400px",
+}
+
 class UserManage extends Component {
 
     constructor(props) {
@@ -179,14 +185,14 @@ class UserManage extends Component {
                 <div className='title text-center'>User Management</div>
                 <div className='container'>
                     <div className='my-1'>
-                        <MuiButton
+                        <Button
                             variant="contained"
                             color="secondary"
                             onClick={() => { this.toggleCreateUserModal(); }}
                         >
                             <i className="fas fa-plus"></i>
                             Create
-                        </MuiButton>
+                        </Button>
                     </div>
 
                     {/* <TableContainer >
@@ -232,16 +238,19 @@ class UserManage extends Component {
                         onRowsPerPageChange={this.handleChangeRowsPerPage}
                     /> */}
 
-                    <div style={{ height: 400, width: '100%' }}>
+                    <Paper>
                         <DataGrid
-
+                            autoHeight
+                            disableColumnMenu
+                            headerHeight={40}
+                            rowHeight={30}
                             rows={this.state.arrUsers.length ? this.state.arrUsers : []}
                             columns={this.columns}
-                            pageSize={1}
-                            rowsPerPageOptions={[1]}
+                            pageSize={5}
+                            rowsPerPageOptions={[5, 10, 20]}
                             checkboxSelection={false}
                         />
-                    </div>
+                    </Paper>
                 </div>
             </React.Fragment>
         );
