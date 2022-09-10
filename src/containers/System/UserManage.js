@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
@@ -26,11 +26,13 @@ import * as userService from '../../services/userService'
 
 import CreateUserModal from './CreateUserModal';
 import EditUserModal from './EditUserModal';
+import MuiDataGrid from '../../components/Control/MuiDataGrid';
 
 const dataGridSx = {
     margin: "0 auto",
     height: "400px",
 }
+
 
 class UserManage extends Component {
 
@@ -46,6 +48,7 @@ class UserManage extends Component {
     }
 
     defaultMaterialTheme = createTheme();
+
 
 
     componentDidMount = async () => {
@@ -239,17 +242,38 @@ class UserManage extends Component {
                     /> */}
 
                     <Paper>
-                        <DataGrid
+                        {/* <DataGrid
                             autoHeight
                             disableColumnMenu
                             headerHeight={40}
                             rowHeight={30}
                             rows={this.state.arrUsers.length ? this.state.arrUsers : []}
                             columns={this.columns}
-                            pageSize={5}
+                            pageSizeIndex={5}
                             rowsPerPageOptions={[5, 10, 20]}
                             checkboxSelection={false}
+                            IsPagingServer={true}
+                        /> */}
+
+                        <MuiDataGrid
+                            // ref={gridRef}
+                            // url={`ReaderApi/get-active-antenna/${masterRowData.id ?? 0}`}
+                            autoHeight
+                            columns={this.columns}
+                            rows={this.state.arrUsers.length ? this.state.arrUsers : []}
+                            pageSize={6}
+                            rowsPerPageOptions={[6, 10, 50]}
+                            IsPagingServer={false}
+
+                        // onSelectionModelChange={handleRowSelection}
+                        // getRowClassName={(params) => {
+                        //     // console.log(params.row.active)
+                        //     if (!params.row.active) {
+                        //         return `Mui-deleted`
+                        //     }
+                        // }}
                         />
+
                     </Paper>
                 </div>
             </React.Fragment>

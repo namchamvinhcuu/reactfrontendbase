@@ -4,6 +4,7 @@ import config from './config';
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL,
+    timeout: 10 * 1000,
     withCredentials: true
 });
 
@@ -22,6 +23,71 @@ export const isSuccessStatusCode = (s) => {
     const statusType = typeof s;
     return (statusType === 'number' && s === 0) || (statusType === 'string' && s.toUpperCase() === 'OK');
 };
+
+let refreshtokenRequest = null;
+
+// instance.interceptors.request.use(async (request) => {
+//     if (
+//         request.url.indexOf(process.env.REACT_APP_BACKEND_URL + 'login') >= 0
+//         || request.url.indexOf(process.env.REACT_APP_BACKEND_URL + 'refreshtoken') >= 0
+//         || request.url.indexOf(process.env.REACT_APP_BACKEND_URL + 'logout') >= 0
+//     ) {
+//         return request;
+//     }
+//     // else {
+
+//     //     // let token = GetLocalStorage(ACCESS_TOKEN);
+//     //     if (token) {
+
+//     //         const tokenDecode = jwt_decode(token.Token);
+//     //         const isExpired = dayjs.unix(tokenDecode.exp).diff(dayjs()) < 1;
+//     //         if (!isExpired) {
+//     //             request.headers.Authorization = `Bearer ${token.Token}`;
+//     //             return request;
+//     //         }
+
+//     //         else {
+
+
+//     //             console.log(refreshtokenRequest)
+//     //             refreshtokenRequest = refreshtokenRequest
+//     //                 ? refreshtokenRequest
+//     //                 : axiosInstance.getNewAccessToken()
+
+//     //             const response = await refreshtokenRequest;
+
+//     //             // const response = await axiosInstance.getNewAccessToken()
+
+//     //             refreshtokenRequest = null;
+
+//     //             if (response && response !== '') {
+//     //                 let newToken = {
+//     //                     Token: response.Token ?? null,
+//     //                     RefreshToken: response.RefreshToken ?? null
+//     //                 };
+
+//     //                 SetLocalStorage(ACCESS_TOKEN, newToken);
+//     //                 request.headers.Authorization = `Bearer ${response.Token}`;
+//     //                 return request;
+//     //             }
+//     //             else {
+//     //                 WarnAlert('You lost your authorization, please login again !');
+//     //                 await axiosInstance.Logout();
+//     //                 return request;
+//     //             }
+//     //         }
+
+//     //     }
+//     //     else {
+//     //         // WarnAlert('You lost your authorization, please login again !');
+//     //         await instance.Logout();
+//     //         return request;
+//     //     }
+//     // }
+
+// }, err => {
+//     return Promise.reject(err)
+// });
 
 instance.interceptors.response.use(
     (response) => {

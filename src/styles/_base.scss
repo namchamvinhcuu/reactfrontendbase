@@ -151,50 +151,50 @@ i {
 //   }
 // }
 
-.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
-.MuiDataGrid-root .MuiDataGrid-cell:focus {
-  outline: none !important;
-}
+// .MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+// .MuiDataGrid-root .MuiDataGrid-cell:focus {
+//   outline: none !important;
+// }
 
-.MuiDataGrid-columnHeaders {
-  background-color: #3B3C36;
-  color           : #fff;
-  font-size       : 14px;
+// .MuiDataGrid-columnHeaders {
+//   background-color: #3B3C36;
+//   color           : #fff;
+//   font-size       : 14px;
 
-  .MuiDataGrid-iconButtonContainer {
-    .MuiDataGrid-sortIcon {
-      color: #fff
-    }
+//   .MuiDataGrid-iconButtonContainer {
+//     .MuiDataGrid-sortIcon {
+//       color: #fff
+//     }
 
-    .MuiDataGrid-columnSeparator {
-      visibility: hidden
-    }
+//     .MuiDataGrid-columnSeparator {
+//       visibility: hidden
+//     }
 
-  }
-}
+//   }
+// }
 
-.MuiDataGrid-footerContainer {
-  min-height     : 40px !important;
-  display        : flex !important;
-  align-items    : center !important;
-  justify-content: center !important;
+// .MuiDataGrid-footerContainer {
+//   min-height     : 40px !important;
+//   display        : flex !important;
+//   align-items    : center !important;
+//   justify-content: center !important;
 
-  .MuiTablePagination-root {
-    display        : flex !important;
-    align-items    : center !important;
-    justify-content: center !important;
+//   .MuiTablePagination-root {
+//     display        : flex !important;
+//     align-items    : center !important;
+//     justify-content: center !important;
 
-    .MuiTablePagination-displayedRows {
-      margin: 1em 0;
-    }
+//     .MuiTablePagination-displayedRows {
+//       margin: 1em 0;
+//     }
 
-    .MuiTablePagination-selectLabel {
-      margin: auto;
-    }
+//     .MuiTablePagination-selectLabel {
+//       margin: auto;
+//     }
 
-    .MuiTablePagination-toolbar {
-      min-height: 40px;
-      height    : 40px;
-    }
-  }
-}
+//     .MuiTablePagination-toolbar {
+//       min-height: 40px;
+//       height    : 40px;
+//     }
+//   }
+// }
