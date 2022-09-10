@@ -23,7 +23,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     WebkitFontSmoothing: 'auto',
     letterSpacing: 'normal',
     '& .MuiDataGrid-columnsContainer': {
-        backgroundColor: theme.palette.mode === 'light' ? '#fafafa' : '#1d1d1d',
+        backgroundColor: theme.palette.mode === 'light' ? '#dddddd' : '#1d1d1d',
     },
     '& .MuiDataGrid-iconSeparator': {
         display: 'none',
@@ -45,13 +45,14 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '20px',
+        minHeight: '30px',
+        backgroundColor: theme.palette.mode === 'light' ? '#D5D5D5' : '#1d1d1d',
 
         '.MuiTablePagination-root': {
 
             '.MuiTablePagination-toolbar': {
 
-                minHeight: '20px',
+                minHeight: '30px',
 
                 '.MuiTablePagination-selectLabel': {
                     margin: '0 auto',
@@ -197,7 +198,7 @@ class MuiDataGrid extends Component {
                     IsPagingServer
                         ? //<BoxLoading number={numberLoading || 3} show={isFirstloading}>
                         <StyledDataGrid
-                            headerHeight={40}
+                            headerHeight={45}
                             rowHeight={30}
                             pageSize={pageSize}
                             onPageSizeChange={(newPageSize) => {
@@ -219,7 +220,7 @@ class MuiDataGrid extends Component {
                         //</BoxLoading>
                         : //<BoxLoading number={numberLoading || 3} show={isFirstloading}>
                         <StyledDataGrid
-                            headerHeight={40}
+                            headerHeight={45}
                             rowHeight={30}
                             pageSize={pageSize}
                             onPageSizeChange={(newPageSize) => this.setState({ pageSize: newPageSize })}
