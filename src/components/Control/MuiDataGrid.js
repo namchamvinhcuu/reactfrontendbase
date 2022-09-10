@@ -74,25 +74,16 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
     },
 
-    // '& .MuiPaginationItem-root': {
-    //     borderRadius: 0,
-
-    //     '.MuiDataGrid-footerContainer':{
-
-    //     }
-    // },
-
     '& .MuiDataGrid-columnHeaders': {
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
         color: 'white',
         fontWeight: 'bold',
-        fontSize: '14px',
+        fontSize: '16px',
 
         '& .MuiDataGrid-sortIcon': {
             color: '#fff'
         }
     }
-
 }));
 
 class MuiDataGrid extends Component {
