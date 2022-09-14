@@ -95,7 +95,7 @@ class MuiDataGrid extends Component {
             isGettingData: false,
             isFirstloading: true,
             dataSearch: {},
-            rows: [],
+            rows: this.props.rows,
             pageSize: props.pageSize ?? 10,
             rowCount: 0,
             currentPage: 0,
@@ -104,28 +104,36 @@ class MuiDataGrid extends Component {
     }
 
     componentDidMount = async () => {
+
+        // console.log('row', this.props.rows)
+        let obj = { ...this.props }
+        this.setState({ ...obj }, () => {
+            console.log('obj', obj)
+        })
+
         await this.loadData();
     }
 
-    // componentDidUpdate = async (prevProps, prevState) => {
-    //     this.props.setTrigger({
-    //         refreshGrid: this.refreshGrid,
-    //         search: this.search,
-    //         addNewRow: this.addNewRow,
-    //         updateRow: this.updateRow,
-    //         getDataGrid: this.getDataGrid,
-    //         // onRefreshComplete:this.onRefreshComplete
-    //     })
+    componentDidUpdate = async (prevProps, prevState) => {
+        // this.props.setTrigger({
+        //     refreshGrid: this.refreshGrid,
+        //     search: this.search,
+        //     addNewRow: this.addNewRow,
+        //     updateRow: this.updateRow,
+        //     getDataGrid: this.getDataGrid,
+        //     // onRefreshComplete:this.onRefreshComplete
+        // })
 
-    //     const { url } = this.props;
+        const { url } = this.props;
 
-    //     if (prevState.pageSize !== this.state.pageSize || url !== prevProps.url) {
-    //         await this.loadData();
-    //     }
-    // }
+        if (prevState.pageSize !== this.state.pageSize || url !== prevProps.url) {
+            await this.loadData();
+        }
+    }
 
     loadData = async (dataSearch, isResetPage) => {
         const { url, rows, IsPagingServer } = this.props;
+        console.log('rows', rows)
 
         // if (!url) {
         //     this.setState({ rows: this.props.rows })
@@ -153,10 +161,9 @@ class MuiDataGrid extends Component {
         this.setState({ ...objState, dataSearch: dataSearch })
 
         return new Promise(async (resolve, reject) => {
-
             if (!url) {
-                this.setState({ isGettingData: false, isFirstloading: false, rowCount: 0, rows: [] });
-                return resolve([]);
+                this.setState({ isGettingData: false, isFirstloading: false, rowCount: 0, rows: rows });
+                return resolve(rows);
             }
             else {
                 const res = await axios.get(url, { params: { ...filterObj } });
@@ -186,9 +193,10 @@ class MuiDataGrid extends Component {
             numberLoading,
             showLoading,
             IsPagingServer,
+            rows
         } = this.props;
 
-        const { isGettingData, isFirstloading, rows, currentPage, rowCount, isPaging } = this.state;
+        const { isGettingData, isFirstloading, currentPage, rowCount, isPaging } = this.state;
         const isShowLoading = showLoading === undefined ? isGettingData : showLoading;
         const pageSize = this.props.pageSize || this.state.pageSize;
 
