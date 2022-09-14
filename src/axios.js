@@ -2,8 +2,12 @@ import axios from 'axios';
 import _ from 'lodash';
 import config from './config';
 
+
+// console.log(process.env.REACT_APP_BACKEND_URL)
+
 const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL,
+    // baseURL: 'http://localhost:8080',
+    baseURL: config.api.API_BASE_URL,
     timeout: 10 * 1000,
     withCredentials: true
 });
@@ -24,7 +28,7 @@ export const isSuccessStatusCode = (s) => {
     return (statusType === 'number' && s === 0) || (statusType === 'string' && s.toUpperCase() === 'OK');
 };
 
-let refreshtokenRequest = null;
+// let refreshtokenRequest = null;
 
 // instance.interceptors.request.use(async (request) => {
 //     if (

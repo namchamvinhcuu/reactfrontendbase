@@ -49,10 +49,12 @@ class UserManage extends Component {
 
     defaultMaterialTheme = createTheme();
 
-
-
     componentDidMount = async () => {
         await this.getUsers('all');
+    }
+
+    componentDidUpdate = async () => {
+        // await this.getUsers('all');
     }
 
 
@@ -263,7 +265,7 @@ class UserManage extends Component {
                             rows={this.state.arrUsers.length ? this.state.arrUsers : []}
                             pageSize={6}
                             rowsPerPageOptions={[6, 10, 50]}
-                            IsPagingServer={false}
+                            IsPagingServer={true}
 
                         // onSelectionModelChange={handleRowSelection}
                         // getRowClassName={(params) => {
