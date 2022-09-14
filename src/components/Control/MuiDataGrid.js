@@ -134,6 +134,7 @@ class MuiDataGrid extends Component {
     loadData = async (dataSearch, isResetPage) => {
         const { url, rows, IsPagingServer } = this.props;
         console.log('rows', rows)
+        console.log('rows', rows)
 
         // if (!url) {
         //     this.setState({ rows: this.props.rows })
