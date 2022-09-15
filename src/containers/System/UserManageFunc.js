@@ -88,7 +88,6 @@ export const UserManageFunc = (props) => {
     }
 
     const handlePageChange = (newPage) => {
-        console.log('newPage', newPage)
         setPage(newPage);
     };
 
@@ -103,8 +102,8 @@ export const UserManageFunc = (props) => {
         {
             field: "action",
             headerName: "",
-            flex: 1,
-            headerAlign: 'center',
+            flex: 0.7,
+            // headerAlign: 'center',
             disableClickEventBubbling: true,
             sortable: false,
             disableColumnMenu: true,
@@ -158,7 +157,6 @@ export const UserManageFunc = (props) => {
 
         if (selectedRow && selectedRow.length > 0) {
             setSelectedRowData({ ...selectedRow[0] });
-            // console.log('selectedRow', selectedRow)
         }
         else {
             setSelectedRowData({});
