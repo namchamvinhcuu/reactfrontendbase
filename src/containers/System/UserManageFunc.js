@@ -198,7 +198,7 @@ export const UserManageFunc = (props) => {
                 <div className='my-1'>
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         onClick={toggleCreateUserModal}
                     >
                         <i className="fas fa-plus"></i>

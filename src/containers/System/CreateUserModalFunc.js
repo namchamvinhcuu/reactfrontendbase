@@ -1,92 +1,16 @@
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import { useForm } from "react-hook-form";
+import { emitter } from '../../utils/emitter'
 
-import { emitter } from '../../utils/emitter';
+export const CreateUserModalFunc = (props) => {
 
-import {
-    Container
-    , Form
-    , Row
-    , Col
-    , Modal
-    , Button
-} from 'react-bootstrap';
+    const { register, formState: { errors }, handleSubmit, clearErrors } = useForm();
+    const onSubmit = data => console.log(data);
 
-class CreateUserModal extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            ...this.initUser
-        }
-
-        this.listenToEmitter();
-    }
-
-    initUser = {
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        address: '',
-    }
-
-    componentDidMount = async () => {
-    }
-
-    listenToEmitter() {
-        emitter.on('EVENT_REFRESH_CREATE_USER_MODAL', (data) => {
-            this.setState({
-                ...this.initUser
-            });
-        })
-    }
-
-    toggle = async () => {
-        this.props.toggleCreateUserModal();
-    }
-
-    handleOnChangeInput = async (event, inputName) => {
-        let postData = { ...this.state };
-        postData[inputName] = event.target.value;
-
-        this.setState({
-            ...postData
-        });
-    }
-
-    checkValidInput = async () => {
-        let isValid = true;
-        let arrInput = ['email', 'password', 'firstName', 'lastName', 'address'];
-
-        for (let index = 0; index < arrInput.length; index++) {
-            if (!this.state[arrInput[index]]) {
-                isValid = false;
-                break;
-            }
-        }
-
-        return isValid;
-    }
-
-    handleCreateNewUser = async () => {
-        let isValid = this.checkValidInput();
-        if (isValid) {
-            //Call Api to create new user
-            this.props.createUserAsync(this.state);
-
-            /** Refresh User without using emitter */
-            // this.setState({
-            //     ...this.initUser
-            // });
-        }
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                <Modal
+    return (
+        <React.Fragment>
+            {/* <Modal
                     show={this.props.isOpen}
                     onHide={() => { this.toggle(); }}
                     backdrop="static"
@@ -203,21 +127,13 @@ class CreateUserModal extends Component {
                         </Modal.Footer>
                     </Form>
 
-                </Modal>
-            </React.Fragment>
-        )
-    }
-
+                </Modal> */}
+        </React.Fragment>
+    )
 }
 
-const mapStateToProps = state => {
-    return {
-    };
-};
+const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateUserModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateUserModalFunc)
