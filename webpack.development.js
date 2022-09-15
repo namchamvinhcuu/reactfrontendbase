@@ -44,12 +44,14 @@ module.exports = {
         modules: ['node_modules'],
         alias: {
             "@node_modules": path.resolve(__dirname, './node_modules'),
-            // "@static": path.resolve(__dirname, './static'),
-            // '@plugins': path.join(__dirname, '/src/plugins'),
+            "@hooks": path.resolve(__dirname, './src/hooks'),
+            '@controls': path.join(__dirname, './src/components/Control'),
+            "@utils": path.resolve(__dirname, './src/utils'),
+            "@services": path.resolve(__dirname, './src/services'),
             // "@views": path.resolve(__dirname, './src/views'),
             // "@states": path.resolve(__dirname, './src/states'),
             // "@appstate": path.resolve(__dirname, './src/states/app'),
-            // "@utils": path.resolve(__dirname, './src/utils'),
+
             // "@constants": path.resolve(__dirname, './src/constants'),
             // "@duck": path.resolve(__dirname, './src/state/duck'),
             // "@viewCommons": path.resolve(__dirname, './src/views/commons'),
@@ -57,7 +59,7 @@ module.exports = {
             // "@components": path.resolve(__dirname, './src/views/components'),
             // "@styles": path.resolve(__dirname, './src/styles'),
             // "@basesControls": path.resolve(__dirname, './src/bases/controls'),
-            // "@basesShared": path.resolve(__dirname, './src/bases/shared'),
+
             // "@basesActions": path.resolve(__dirname, './src/bases/actions'),
         }
     },

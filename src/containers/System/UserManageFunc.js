@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
-import './UserManage.scss';
+import './UserManage.scss'
 
-import * as userService from '../../services/userService';
-import { emitter } from '../../utils/emitter';
+// import * as userService from '../../services/userService'
+import { userService } from '@services'
+import { emitter } from '../../utils/emitter'
+import { useModal } from '@hooks'
 
 import {
     Button,
-} from '@mui/material';
+} from '@mui/material'
 
-import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc';
-import CreateUserModal from './CreateUserModal';
-import EditUserModal from './EditUserModal';
+import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
+import CreateUserModal from './CreateUserModal'
+import CreateUserModalFunc from './CreateUserModalFunc'
+import EditUserModal from './EditUserModal'
 
 export const UserManageFunc = (props) => {
 
@@ -26,6 +29,8 @@ export const UserManageFunc = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRowdata, setSelectedRowData] = useState({});
 
+    const { isShowing, toggle } = useModal();
+
     const toggleCreateUserModal = async () => {
         setIsOpenCreateUserModal(!isOpenCreateUserModal);
     }
@@ -39,23 +44,6 @@ export const UserManageFunc = (props) => {
         let res = await userService.getUsers(id);
         if (res && res.errCode === 0) {
             setArrUsers([...res.users]);
-        }
-    }
-
-    const createUserAsync = async (postData) => {
-        try {
-            let res = await userService.createUser(postData);
-            if (res && res.errCode !== 0) {
-                /** using Toast to show error */
-            }
-            else {
-                await getUsers('all');
-                toggleCreateUserModal();
-
-                emitter.emit('EVENT_REFRESH_CREATE_USER_MODAL', { message: 'test emitter' });
-            }
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -96,6 +84,24 @@ export const UserManageFunc = (props) => {
         setPage(0);
     };
 
+    const handleRowSelection = (arrIds) => {
+
+        let currentGridData = ref.current.getDataGrid();
+        let selectedRow = currentGridData.filter(function (item) {
+            return item.id === arrIds[0]
+        });
+
+        if (selectedRow && selectedRow.length > 0) {
+            setSelectedRowData({ ...selectedRow[0] });
+        }
+        else {
+            setSelectedRowData({});
+        }
+    }
+
+    const refreshGrid = async () => {
+        return await getUsers('all');
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', hide: true },
@@ -147,22 +153,6 @@ export const UserManageFunc = (props) => {
         },
     ];
 
-
-    const handleRowSelection = (arrIds) => {
-
-        let currentGridData = ref.current.getDataGrid();
-        let selectedRow = currentGridData.filter(function (item) {
-            return item.id === arrIds[0]
-        });
-
-        if (selectedRow && selectedRow.length > 0) {
-            setSelectedRowData({ ...selectedRow[0] });
-        }
-        else {
-            setSelectedRowData({});
-        }
-    }
-
     useEffect(() => {
         // declare the data fetching function
         const fetchData = async () => {
@@ -183,11 +173,20 @@ export const UserManageFunc = (props) => {
 
     return (
         <React.Fragment>
-            <CreateUserModal
+            {/* <CreateUserModal
                 isOpen={isOpenCreateUserModal}
                 toggleCreateUserModal={toggleCreateUserModal}
                 createUserAsync={createUserAsync}
+            /> */}
+
+            <CreateUserModalFunc
+                isOpen={isOpenCreateUserModal}
+                onClose={toggleCreateUserModal}
+                passingData={selectedRowdata}
+                // createUserAsync={createUserAsync}
+                refreshGrid={refreshGrid}
             />
+
             <EditUserModal
                 isOpen={isOpenEditUserModal}
                 toggleEditUserModal={toggleEditUserModal}

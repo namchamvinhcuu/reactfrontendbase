@@ -39,16 +39,16 @@ const Transition_Slide_Down = React.forwardRef(function Transition(props, ref) {
 
 const uid = new ShortUniqueId();
 
-const useStyles = styled(theme => ({
-    paper: {
-        overflowY: 'unset',
-    },
+// const useStyles = styled(theme => ({
+//     paper: {
+//         overflowY: 'unset',
+//     },
 
-}));
+// }));
 
-export const MuiDialog = ({ animate, isShowing, hide, onSave, onClear, title, disable_animate, ...others }) => {
+export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, disable_animate, ...others }) => {
 
-    const classes = useStyles();
+    // const classes = useStyles();
     const [id_dialog, _] = useState(uid());
     const [data, setData] = useState({});
 
@@ -61,22 +61,27 @@ export const MuiDialog = ({ animate, isShowing, hide, onSave, onClear, title, di
     }, []);
 
     const handleClose = () => {
-        hide();
+        onClose();
     };
 
     useEffect(() => {
+
         return (() => {
             setData({})
         })
-    }, [isShowing]);
+    }, [isOpen]);
+
+    console.log('dis', disable_animate)
 
     return (
         <Dialog
             TransitionComponent={animate === "fade" ? Transition_Fade : animate === "grow" ? Transition_Grow : animate === "slide_down" ? Transition_Slide_Down : Transition_Zoom}
-            transitionDuration={disable_animate || data[id_dialog]?.disable_animate === true ? 0 : 250}
-            open={isShowing}
+            transitionDuration={disable_animate || (data[id_dialog]?.disable_animate === true) ? disable_animate : 250}
+
+            open={isOpen}
             PaperComponent={PaperComponent}
-            classes={{ paper: classes.paper }}
+            // classes={{ paper: classes.paper }}
+            sx={{ overflowY: 'unset' }}
             {...others}
         >
             <DialogTitle style={{ marginTop: '-6px', height: '55px', cursor: 'move' }} id={"draggable-dialog" + id_dialog}>
@@ -120,7 +125,7 @@ export const MuiDialog = ({ animate, isShowing, hide, onSave, onClear, title, di
 
                     }} icon="save" text="Save" />}
 
-                {onClear && <MuiButtonAsync
+                {onReset && <MuiButtonAsync
 
                     onCompleteStateChange={state => {
                         setData({ [id_dialog]: { loading: false } })
@@ -128,7 +133,7 @@ export const MuiDialog = ({ animate, isShowing, hide, onSave, onClear, title, di
 
                     onClick={(e) => {
                         setData({ [id_dialog]: { disable_animate: true, loading: true } })
-                        return onClear(e);
+                        return onReset(e);
 
                     }} icon="clear" text="Clear" />}
 

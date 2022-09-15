@@ -1,12 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useForm } from "react-hook-form";
-import { emitter } from '../../utils/emitter'
+import { emitter } from '@utils'
+import { userService } from '@services'
+import { MuiDialog } from '@controls'
+
+import TextField from '@mui/material/TextField';
 
 export const CreateUserModalFunc = (props) => {
 
     const { register, formState: { errors }, handleSubmit, clearErrors } = useForm();
     const onSubmit = data => console.log(data);
+
+    const { isOpen, onClose, passingData, refreshGrid, ...others } = props;
+
+    const [dataModal, setDataModal] = useState({ ...passingData });
+
+    const handleClose = () => {
+        setDataModal({});
+        onClose();
+    }
+
+    const createUserAsync = async (postData) => {
+        try {
+            let res = await userService.createUser(postData);
+            if (res && res.errCode !== 0) {
+                /** using Toast to show error */
+            }
+            else {
+                refreshGrid();
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        setDataModal({ ...passingData });
+    }, [passingData]);
 
     return (
         <React.Fragment>
@@ -128,6 +159,18 @@ export const CreateUserModalFunc = (props) => {
                     </Form>
 
                 </Modal> */}
+
+            <MuiDialog
+                isOpen={isOpen}
+                onClose={handleClose}
+                // animate={'grow'}
+                disable_animate={500}
+                onSave={createUserAsync}
+            >
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                <TextField id="filled-basic" label="Filled" variant="filled" />
+                <TextField id="standard-basic" label="Standard" variant="standard" />
+            </MuiDialog>
         </React.Fragment>
     )
 }
