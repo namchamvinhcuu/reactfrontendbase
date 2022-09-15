@@ -37,7 +37,6 @@ class CreateUserModal extends Component {
 
     listenToEmitter() {
         emitter.on('EVENT_REFRESH_CREATE_USER_MODAL', (data) => {
-            console.log('listen emitter from parent: ', data);
             this.setState({
                 ...this.initUser
             });

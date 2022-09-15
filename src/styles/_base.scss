@@ -198,3 +198,17 @@ i {
 //     }
 //   }
 // }
+
+.MuiDataGrid-row {
+  &.Mui-selected {
+    background-color: #FFD700 !important;
+  }
+
+  &:hover {
+    cursor: pointer !important;
+  }
+}
+
+.MuiDataGrid-cell {
+  outline: none !important;
+}

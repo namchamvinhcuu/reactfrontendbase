@@ -6,6 +6,7 @@ import ProductManage from '../containers/System/ProductManage';
 import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
 
 import UserManage from '../containers/System/UserManage';
+import UserManageFunc from '../containers/System/UserManageFunc';
 import UserManageRedux from '../containers/System/Admin/UserManageRedux';
 import Header from '../containers/Header/Header';
 
@@ -18,7 +19,8 @@ class System extends Component {
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
-                            <Route path="/system/user-manage" component={UserManage} />
+                            {/* <Route path="/system/user-manage" component={UserManage} /> */}
+                            <Route path="/system/user-manage" component={UserManageFunc} />
                             <Route path="/system/user-manage-redux" component={UserManageRedux} />
                             <Route path="/system/product-manage" component={ProductManage} />
                             <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />

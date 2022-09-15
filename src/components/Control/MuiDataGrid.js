@@ -1,8 +1,12 @@
-import { connect } from 'react-redux';
-import React, { Component, forwardRef, useRef, useImperativeHandle, useState } from 'react';
-import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
-import axios from '../../axios'
+import { DataGrid } from "@mui/x-data-grid";
+import React, { Component } from 'react';
+import {
+    Button,
+    Paper
+} from '@mui/material';
+import { connect } from 'react-redux';
+import axios from '../../axios';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;',
@@ -22,23 +26,31 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     ].join(','),
     WebkitFontSmoothing: 'auto',
     letterSpacing: 'normal',
+    padding: '4px',
     '& .MuiDataGrid-columnsContainer': {
         backgroundColor: theme.palette.mode === 'light' ? '#dddddd' : '#1d1d1d',
     },
+
     '& .MuiDataGrid-iconSeparator': {
         display: 'none',
     },
+
     '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-        borderRight: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'
-            }`,
+        borderRight: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'}`,
+
     },
+
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-        borderBottom: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'
-            }`,
+        borderBottom: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'}`,
     },
+
     '& .MuiDataGrid-cell': {
-        color:
-            theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
+        color: theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
+        fontSize: '14px',
+    },
+
+    '&.Mui-selected': {
+        backgroundColor: 'yellow'
     },
 
     '& .MuiDataGrid-footerContainer': {
@@ -69,10 +81,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
                     fontSize: '1.1em'
                 }
             },
-
-
         },
-
     },
 
     '& .MuiDataGrid-columnHeaders': {
@@ -83,8 +92,12 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
         '& .MuiDataGrid-sortIcon': {
             color: '#fff'
+        },
+
+        '& .MuiDataGrid-columnHeader': {
+            outline: 'none'
         }
-    }
+    },
 }));
 
 class MuiDataGrid extends Component {
@@ -104,14 +117,11 @@ class MuiDataGrid extends Component {
     }
 
     componentDidMount = async () => {
-
-        // console.log('row', this.props.rows)
         let obj = { ...this.props }
         this.setState({ ...obj }, () => {
             console.log('obj', obj)
         })
-
-        await this.loadData();
+        // await this.loadData();
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
@@ -124,78 +134,71 @@ class MuiDataGrid extends Component {
         //     // onRefreshComplete:this.onRefreshComplete
         // })
 
-        const { url } = this.props;
+        const { rows } = this.props;
 
-        if (prevState.pageSize !== this.state.pageSize || url !== prevProps.url) {
-            await this.loadData();
-        }
-    }
-
-    loadData = async (dataSearch, isResetPage) => {
-        const { url, rows, IsPagingServer } = this.props;
-        console.log('rows', rows)
-        console.log('rows', rows)
-
-        // if (!url) {
-        //     this.setState({ rows: this.props.rows })
-        //     return;
+        // if (prevState.pageSize !== this.state.pageSize || url !== prevProps.url) {
+        //     // await this.loadData();
         // }
-
-        let filterObj = dataSearch || {};
-
-        const pageSize = this.props.pageSize || this.state.pageSize;
-
-        if (IsPagingServer) {
-            filterObj = { ...dataSearch, page: isResetPage ? 0 : this.state.currentPage, pagesize: pageSize }
+        if (rows !== prevProps.rows) {
+            this.setState({
+                rows: rows
+            })
         }
-
-        let objState = { isGettingData: true, pageSize: pageSize };
-
-        if (isResetPage) {
-            objState.currentPage = 0;
-        }
-
-        if (dataSearch) {
-            objState.isFirstloading = true
-        };
-
-        this.setState({ ...objState, dataSearch: dataSearch })
-
-        return new Promise(async (resolve, reject) => {
-            if (!url) {
-                this.setState({ isGettingData: false, isFirstloading: false, rowCount: 0, rows: rows });
-                return resolve(rows);
-            }
-            else {
-                const res = await axios.get(url, { params: { ...filterObj } });
-
-                this.props.onRefreshComplete && this.props.onRefreshComplete(res);
-                this.setState({ isGettingData: false, isFirstloading: false, rowCount: res.totalCount, rows: res })
-            }
-
-
-
-            // api_get(url, filterObj).then((data) => {
-            //     let rows = []
-            //     if (data.hasOwnProperty("items"))
-            //         rows = data.items;
-            //     else rows = data;
-
-            //     this.props.onRefreshComplete && this.props.onRefreshComplete(rows)
-            //     this.setState({ isGettingData: false, isFirstloading: false, rowCount: data.totalCount, rows: rows })
-            //     resolve(rows);
-            // });
-        });
 
     }
+
+    // loadData = async (dataSearch, isResetPage) => {
+    //     const { url, rows, IsPagingServer } = this.props;
+    //     console.log('rows', rows)
+    //     console.log('rows', rows)
+
+    //     // if (!url) {
+    //     //     this.setState({ rows: this.props.rows })
+    //     //     return;
+    //     // }
+
+    //     let filterObj = dataSearch || {};
+
+    //     const pageSize = this.props.pageSize || this.state.pageSize;
+
+    //     if (IsPagingServer) {
+    //         filterObj = { ...dataSearch, page: isResetPage ? 0 : this.state.currentPage, pagesize: pageSize }
+    //     }
+
+    //     let objState = { isGettingData: true, pageSize: pageSize };
+
+    //     if (isResetPage) {
+    //         objState.currentPage = 0;
+    //     }
+
+    //     if (dataSearch) {
+    //         objState.isFirstloading = true
+    //     };
+
+    //     this.setState({ ...objState, dataSearch: dataSearch })
+
+    //     return new Promise(async (resolve, reject) => {
+    //         if (!url) {
+    //             this.setState({ isGettingData: false, isFirstloading: false, rowCount: 0, rows: rows });
+    //             return resolve(rows);
+    //         }
+    //         else {
+    //             const res = await axios.get(url, { params: { ...filterObj } });
+
+    //             this.props.onRefreshComplete && this.props.onRefreshComplete(res);
+    //             this.setState({ isGettingData: false, isFirstloading: false, rowCount: res.totalCount, rows: res })
+    //         }
+    //     });
+
+    // }
 
     render() {
         const {
-            numberLoading,
             showLoading,
             IsPagingServer,
-            rows
         } = this.props;
+
+        console.log('showLoading', showLoading)
 
         const { isGettingData, isFirstloading, currentPage, rowCount, isPaging } = this.state;
         const isShowLoading = showLoading === undefined ? isGettingData : showLoading;
@@ -205,17 +208,16 @@ class MuiDataGrid extends Component {
             <React.Fragment>
                 {
                     IsPagingServer
-                        ? //<BoxLoading number={numberLoading || 3} show={isFirstloading}>
+                        ?
+
                         <StyledDataGrid
                             headerHeight={45}
                             rowHeight={30}
                             pageSize={pageSize}
                             onPageSizeChange={(newPageSize) => {
                                 this.setState({ pageSize: newPageSize });
-
                             }}
                             rowsPerPageOptions={[5, 10, 20]}
-
                             loading={isPaging}
                             rowCount={rowCount}
                             page={currentPage}
@@ -224,10 +226,11 @@ class MuiDataGrid extends Component {
                             pagination
 
                             {...this.props}
-                            rows={rows} //important below ...this.props
+                            rows={this.state.rows} //important below ...this.props
                         />
-                        //</BoxLoading>
-                        : //<BoxLoading number={numberLoading || 3} show={isFirstloading}>
+
+                        :
+
                         <StyledDataGrid
                             headerHeight={45}
                             rowHeight={30}
@@ -236,9 +239,8 @@ class MuiDataGrid extends Component {
                             rowsPerPageOptions={[10, 20, 50]}
                             pagination
                             {...this.props}
-                            rows={rows} //important below ...this.props
+                            rows={this.state.rows} //important below ...this.props
                         />
-                    //</BoxLoading>
 
                 }
             </React.Fragment>
