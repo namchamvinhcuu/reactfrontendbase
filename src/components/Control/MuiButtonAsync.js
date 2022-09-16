@@ -33,7 +33,7 @@ const MuiButtonAsync = (props) => {
     }, [])
 
     const handleClick = (args) => {
-        const clickHandler = this.props.onClick;
+        const clickHandler = props.onClick;
 
         if (typeof clickHandler === 'function') {
 
@@ -101,6 +101,7 @@ const MuiButtonAsync = (props) => {
             color={icon === "clear" ? 'error' : 'primary'}
             {...others}
             onClick={handleClick}
+            type='submit'
         >
             {text}
         </LoadingButton>

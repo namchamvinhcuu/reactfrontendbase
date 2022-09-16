@@ -8,6 +8,7 @@
     "@formatjs/intl-pluralrules": "^3.5.6",
     "@formatjs/intl-relativetimeformat": "^7.3.6",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
+    "@hookform/resolvers": "^2.9.8",
     "@mui/icons-material": "^5.10.3",
     "@mui/lab": "^5.0.0-alpha.98",
     "@mui/material": "^5.10.4",
@@ -48,7 +49,8 @@
     "redux-thunk": "^2.3.0",
     "short-unique-id": "^4.4.4",
     "slick-carousel": "^1.8.1",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "yup": "^0.32.11"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

@@ -15,6 +15,7 @@ import {
     Grow,
     Slide,
 } from '@mui/material'
+import { useForm } from "react-hook-form";
 
 import CloseIcon from '@mui/icons-material/Close'
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -41,7 +42,7 @@ const Transition_Slide_Down = React.forwardRef(function Transition(props, ref) {
 const uid = new ShortUniqueId();
 
 export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, disable_animate, maxWidth, ...others }) => {
-
+    const { register, formState: { errors }, handleSubmit, clearErrors } = useForm();
     const [dialogId, setDialogId] = React.useState(uid());
     const [data, setData] = useState({});
 
@@ -64,39 +65,42 @@ export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, di
     }, [isOpen]);
 
     return (
-        <Paper>
-            <Dialog
-                TransitionComponent={animate === "fade" ? Transition_Fade : animate === "grow" ? Transition_Grow : animate === "slide_down" ? Transition_Slide_Down : Transition_Zoom}
-                transitionDuration={disable_animate || (data[dialogId]?.disable_animate === true) ? disable_animate : 250}
-                PaperComponent={PaperComponent}
-                aria-labelledby={`draggable-dialog-${dialogId}`}
-                fullWidth
-                maxWidth={maxWidth}
-                open={isOpen}
-                {...others}
-            >
-                <DialogTitle style={{ height: 'auto', cursor: 'move' }}>
-                    {title}
-                    <IconButton sx={{
-                        top: '-12px',
-                        right: '-12px',
-                        color: 'cornflowerblue',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        backgroundColor: '#CCCCCC',
-                        width: '35px',
-                        height: '35px',
-                        '&:hover': {
-                            backgroundColor: 'aliceblue',
-                            color: 'red'
-                        },
-                        '&:disabled': {
-                            backgroundColor: 'aliceblue',
-                        },
-                    }} onClick={handleClose} color="primary" >
-                        <CloseIcon />
-                    </IconButton>
-                </DialogTitle>
+
+        <Dialog
+            TransitionComponent={animate === "fade" ? Transition_Fade : animate === "grow" ? Transition_Grow : animate === "slide_down" ? Transition_Slide_Down : Transition_Zoom}
+            transitionDuration={disable_animate || (data[dialogId]?.disable_animate === true) ? disable_animate : 250}
+            PaperComponent={PaperComponent}
+            aria-labelledby={`draggable-dialog-${dialogId}`}
+            fullWidth
+            maxWidth={maxWidth}
+            open={isOpen}
+            {...others}
+        >
+            <form>
+                <Paper>
+                    <DialogTitle style={{ height: 'auto', cursor: 'move' }}>
+                        {title}
+                        <IconButton sx={{
+                            top: '-12px',
+                            right: '-12px',
+                            color: 'cornflowerblue',
+                            borderRadius: '50%',
+                            position: 'absolute',
+                            backgroundColor: '#CCCCCC',
+                            width: '35px',
+                            height: '35px',
+                            '&:hover': {
+                                backgroundColor: 'aliceblue',
+                                color: 'red'
+                            },
+                            '&:disabled': {
+                                backgroundColor: 'aliceblue',
+                            },
+                        }} onClick={handleClose} color="primary" >
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
+                </Paper>
 
                 <Box mt={2}>
                     <DialogContent>
@@ -119,6 +123,7 @@ export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, di
                             icon="save"
                             text="Save"
                         />
+
                     }
 
                     <Button
@@ -131,8 +136,8 @@ export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, di
                         reset
                     </Button>
                 </DialogActions>
-            </Dialog>
-        </Paper>
+            </form>
+        </Dialog>
     )
 }
 
