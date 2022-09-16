@@ -20,6 +20,15 @@ export const UserManageFunc = (props) => {
 
     const ref = useRef();
 
+    const initUserData = {
+        id: 0
+        , email: ''
+        , password: ''
+        , firstName: ''
+        , lastName: ''
+        , address: ''
+    }
+
     const [arrUsers, setArrUsers] = useState([]);
     const [isOpenCreateUserModal, setIsOpenCreateUserModal] = useState(false);
     const [isOpenEditUserModal, setIsOpenEditUserModal] = useState(false);
@@ -27,9 +36,7 @@ export const UserManageFunc = (props) => {
     const [pageSize, setPageSize] = useState(5);
     const [rowCount, setRowCount] = useState(arrUsers?.totalRowCount || 0);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRowdata, setSelectedRowData] = useState({});
-
-    const { isShowing, toggle } = useModal();
+    const [selectedRowdata, setSelectedRowData] = useState({ ...initUserData });
 
     const toggleCreateUserModal = async () => {
         setIsOpenCreateUserModal(!isOpenCreateUserModal);
@@ -103,6 +110,8 @@ export const UserManageFunc = (props) => {
         return await getUsers('all');
     }
 
+
+
     const columns = [
         { field: 'id', headerName: 'ID', hide: true },
         {
@@ -158,7 +167,6 @@ export const UserManageFunc = (props) => {
         const fetchData = async () => {
             await getUsers('all')
         }
-
         // call the function
         fetchData()
             // make sure to catch any error
@@ -173,17 +181,11 @@ export const UserManageFunc = (props) => {
 
     return (
         <React.Fragment>
-            {/* <CreateUserModal
-                isOpen={isOpenCreateUserModal}
-                toggleCreateUserModal={toggleCreateUserModal}
-                createUserAsync={createUserAsync}
-            /> */}
 
             <CreateUserModalFunc
                 isOpen={isOpenCreateUserModal}
                 onClose={toggleCreateUserModal}
                 passingData={selectedRowdata}
-                // createUserAsync={createUserAsync}
                 refreshGrid={refreshGrid}
             />
 

@@ -1,28 +1,20 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { connect } from 'react-redux'
-import MuiButtonAsync from './MuiButtonAsync'
 import {
-    IconButton,
-    Dialog,
+    Button, Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, Fade,
+    Grow, IconButton, Paper, Slide, Zoom
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import MuiButtonAsync from './MuiButtonAsync';
 
-    Paper,
-    Button,
-    Zoom,
-    Fade,
-    Grow,
-    Slide,
-} from '@mui/material'
-import { useForm } from "react-hook-form";
+import CloseIcon from '@mui/icons-material/Close';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
-import CloseIcon from '@mui/icons-material/Close'
-import RefreshIcon from '@mui/icons-material/Refresh'
-
-import Draggable from 'react-draggable'
-import ShortUniqueId from "short-unique-id"
-import { Box } from '@mui/system'
+import { Box } from '@mui/system';
+import Draggable from 'react-draggable';
+import ShortUniqueId from "short-unique-id";
 
 const Transition_Zoom = React.forwardRef(function Transition(props, ref) {
     return <Zoom ref={ref} {...props} />;
@@ -41,8 +33,10 @@ const Transition_Slide_Down = React.forwardRef(function Transition(props, ref) {
 
 const uid = new ShortUniqueId();
 
-export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, disable_animate, maxWidth, ...others }) => {
-    const { register, formState: { errors }, handleSubmit, clearErrors } = useForm();
+export const MuiDialog = ({ isOpen, onClose, onReset, title, disable_animate, maxWidth, ...others }) => {
+
+    const { animate } = others;
+
     const [dialogId, setDialogId] = React.useState(uid());
     const [data, setData] = useState({});
 
@@ -109,28 +103,26 @@ export const MuiDialog = ({ animate, isOpen, onClose, onSave, onReset, title, di
                 </Box>
 
                 <DialogActions>
-                    {
-                        onSave &&
-                        <MuiButtonAsync
-                            onCompleteStateChange={state => {
-                                setData({ [dialogId]: { loading: false } })
-                            }}
 
-                            onClick={(e) => {
-                                setData({ [dialogId]: { disable_animate: true, loading: true } })
-                                return onSave(e);
-                            }}
-                            icon="save"
-                            text="Save"
-                        />
+                    <MuiButtonAsync
+                        onCompleteStateChange={state => {
+                            setData({ [dialogId]: { loading: false } })
+                        }}
 
-                    }
+                        onClick={(e) => {
+                            setData({ [dialogId]: { disable_animate: true, loading: true } })
+                            // return onSave(e);
+                        }}
+                        icon="save"
+                        text="Save"
+                        type='submit'
+                    />
 
                     <Button
                         disabled={data[dialogId]?.loading}
                         variant="outlined"
                         color="secondary"
-                        onClick={handleClose}
+                        onClick={onReset}
                         startIcon={<RefreshIcon />}
                     >
                         reset
