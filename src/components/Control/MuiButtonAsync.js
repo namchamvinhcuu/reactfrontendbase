@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import PrintIcon from '@mui/icons-material/Print'
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RefreshIcon from '@mui/icons-material/Refresh'
 
 const MuiButtonAsync = (props) => {
     const mounted = useRef(false);
@@ -83,6 +84,8 @@ const MuiButtonAsync = (props) => {
                 return <CenterFocusWeakIcon />
             case 'add':
                 return <AddCircleIcon />
+            case 'reset':
+                return <RefreshIcon />
             default:
                 return '';
         }

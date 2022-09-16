@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { useForm } from "react-hook-form";
-import { emitter } from '@utils'
-import { userService } from '@services'
-import { MuiDialog } from '@controls'
+import { emitter } from '@utils';
+import { userService } from '@services';
+import { MuiDialog } from '@controls';
 
 import TextField from '@mui/material/TextField';
+// import Box from '@mui/material/Box'
+import Grid from '@mui/material/Unstable_Grid2';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export const CreateUserModalFunc = (props) => {
 
@@ -15,6 +23,27 @@ export const CreateUserModalFunc = (props) => {
     const { isOpen, onClose, passingData, refreshGrid, ...others } = props;
 
     const [dataModal, setDataModal] = useState({ ...passingData });
+    const [values, setValues] = React.useState({
+        amount: '',
+        password: '',
+        weight: '',
+        weightRange: '',
+        showPassword: false,
+    });
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     const handleClose = () => {
         setDataModal({});
@@ -41,135 +70,80 @@ export const CreateUserModalFunc = (props) => {
 
     return (
         <React.Fragment>
-            {/* <Modal
-                    show={this.props.isOpen}
-                    onHide={() => { this.toggle(); }}
-                    backdrop="static"
-                    keyboard={false}
-                    size='lg'
-                    centered
-                >
-
-                    <Form>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Create new user</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                            <Row>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>Email address</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            name="email"
-                                            placeholder="Enter email"
-                                            value={this.state.email}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'email')
-                                            }}
-                                        />
-
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            name="password"
-                                            placeholder="Enter password"
-                                            value={this.state.password}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'password')
-                                            }}
-                                        />
-
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="firstname"
-                                            placeholder="Enter first name"
-                                            value={this.state.firstName}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'firstName')
-                                            }}
-                                        />
-
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="lastName"
-                                            placeholder="Enter last name"
-                                            value={this.state.lastName}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'lastName')
-                                            }}
-                                        />
-
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>Address</Form.Label>
-                                        <Form.Control
-                                            as="textarea" rows={2}
-                                            name="address"
-                                            placeholder="Enter address"
-                                            value={this.state.address}
-                                            // bsSize="sm"
-                                            onChange={(event) => {
-                                                this.handleOnChangeInput(event, 'address')
-                                            }}
-                                        />
-
-                                    </Form.Group>
-
-                                </Col>
-
-                            </Row>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                            <Button variant="success" onClick={() => { this.handleCreateNewUser(); }}>
-                                <i className="fas fa-save"></i>
-                                &nbsp;Save
-                            </Button>
-                            <Button variant="secondary" onClick={() => { this.setState({ ...this.initUser }); }}>
-                                <i className="fas fa-redo"></i>
-                                &nbsp;Reset
-                            </Button>
-                        </Modal.Footer>
-                    </Form>
-
-                </Modal> */}
-
             <MuiDialog
+                maxWidth="md"
+                title="Test"
                 isOpen={isOpen}
                 onClose={handleClose}
-                // animate={'grow'}
-                disable_animate={500}
+                disable_animate={300}
                 onSave={createUserAsync}
+                onReset={createUserAsync}
             >
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                <TextField id="filled-basic" label="Filled" variant="filled" />
-                <TextField id="standard-basic" label="Standard" variant="standard" />
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid xs={6}>
+                        <TextField
+                            label="Email"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            {...register("email", { required: "Required" })}
+                        />
+                    </Grid>
+                    <Grid xs={6}>
+                        <TextField
+                            label="Password"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            type={values.showPassword ? "text" : "password"}
+                            InputProps={{ // <-- This is where the toggle button is added.
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                            {...register("password", { required: "Required" })}
+                        />
+
+                    </Grid>
+                    <Grid xs={6}>
+                        <TextField
+                            label="First name"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            {...register("firstName", { required: "Required" })}
+                        />
+                    </Grid>
+                    <Grid xs={6}>
+                        <TextField
+                            label="Last name"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            {...register("lastName", { required: "Required" })}
+                        />
+                    </Grid>
+                    <Grid xs={12}>
+                        <TextField
+                            label="Address"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            multiline
+                            rows={2}
+                            {...register("address", { required: "Required" })}
+                        />
+                    </Grid>
+                </Grid>
             </MuiDialog>
         </React.Fragment>
     )

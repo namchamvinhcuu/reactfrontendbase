@@ -212,3 +212,15 @@ i {
 .MuiDataGrid-cell {
   outline: none !important;
 }
+
+.MuiPaper-root {
+  &.MuiDialog-paper {
+    &.react-draggable {
+      overflow-y: unset;
+    }
+  }
+}
+
+.MuiFormLabel-root {
+  margin: auto;
+}
