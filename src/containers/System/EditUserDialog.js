@@ -1,53 +1,39 @@
 import { MuiDialog } from '@controls';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from '@services';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { useFormCustom } from '@hooks';
 import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useFormCustom } from '@hooks'
 
-export const CreateUserModalFunc = (props) => {
+export const EditUserDialog = (props) => {
 
     const { isOpen, onClose, passingData, refreshGrid, ...others } = props;
 
     const initData = { ...passingData }
     const dataModalRef = useRef(initData);
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const {
         values,
         setValues,
         handleInputChange
-    } = useFormCustom(initData);
-
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    } = useFormCustom({});
 
     const onSubmit = async (data) => {
         dataModalRef.current = { ...passingData, ...data };
 
-        await createUserAsync(dataModalRef.current);
+        await editUserAsync(dataModalRef.current);
 
         handleCloseDialog();
     };
 
-    const createUserAsync = async (postData) => {
+    const editUserAsync = async (postData) => {
         try {
-            let res = await userService.createUser(postData);
+            let res = await userService.editUser(postData);
             if (res && res.errCode !== 0) {
                 /** using Toast to show error */
             }
@@ -61,7 +47,6 @@ export const CreateUserModalFunc = (props) => {
 
     const schema = yup.object().shape({
         email: yup.string().email().required(),
-        password: yup.string().min(3).required(),
         firstName: yup.string().min(3).required(),
         lastName: yup.string().min(3).required(),
         address: yup.string().min(3).required(),
@@ -82,9 +67,11 @@ export const CreateUserModalFunc = (props) => {
         clearErrors();
     }
 
-    // useEffect(() => {
-    //     console.log('dataModal after change', dataModal);
-    // }, [dataModal]);
+    useEffect(() => {
+        setValues({ ...passingData });
+        dataModalRef.current = { ...passingData };
+
+    }, [passingData, setValues]);
 
     return (
         <React.Fragment>
@@ -93,7 +80,7 @@ export const CreateUserModalFunc = (props) => {
             }>
                 <MuiDialog
                     maxWidth='sm'
-                    title='Create User'
+                    title='Edit User'
                     isOpen={isOpen}
                     disable_animate={300}
                     onClose={handleCloseDialog}
@@ -101,7 +88,7 @@ export const CreateUserModalFunc = (props) => {
                 >
 
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid sm={6}>
+                        <Grid sm={12}>
                             <TextField
                                 label='Email'
                                 variant='outlined'
@@ -117,36 +104,7 @@ export const CreateUserModalFunc = (props) => {
                                 helperText={errors?.email ? errors.email.message : null}
                             />
                         </Grid>
-                        <Grid sm={6}>
-                            <TextField
-                                label='Password'
-                                variant='outlined'
-                                size='small'
-                                fullWidth
-                                name='password'
-                                value={values.password}
-                                {...register('password', {
-                                    onChange: (e) => handleInputChange(e)
-                                })}
-                                error={!!errors?.password}
-                                helperText={errors?.password ? errors.password.message : null}
-                                type={showPassword ? 'text' : 'password'}
-                                InputProps={{ // <-- This is where the toggle button is added.
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton
-                                                aria-label='toggle password visibility'
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
 
-                        </Grid>
                         <Grid sm={6}>
                             <TextField
                                 label='First name'
@@ -162,6 +120,7 @@ export const CreateUserModalFunc = (props) => {
                                 helperText={errors?.firstName ? errors.firstName.message : null}
                             />
                         </Grid>
+
                         <Grid sm={6}>
                             <TextField
                                 label='Last name'
@@ -205,4 +164,4 @@ const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateUserModalFunc)
+export default connect(mapStateToProps, mapDispatchToProps)(EditUserDialog)

@@ -15,6 +15,7 @@ import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
 import CreateUserModal from './CreateUserModal'
 import CreateUserModalFunc from './CreateUserModalFunc'
 import EditUserModal from './EditUserModal'
+import EditUserDialog from './EditUserDialog'
 
 export const UserManageFunc = (props) => {
 
@@ -36,7 +37,7 @@ export const UserManageFunc = (props) => {
     const [pageSize, setPageSize] = useState(5);
     const [rowCount, setRowCount] = useState(arrUsers?.totalRowCount || 0);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRowdata, setSelectedRowData] = useState({ ...initUserData });
+    const [selectedRowData, setSelectedRowData] = useState({ ...initUserData });
 
     const toggleCreateUserModal = async () => {
         setIsOpenCreateUserModal(!isOpenCreateUserModal);
@@ -44,7 +45,7 @@ export const UserManageFunc = (props) => {
 
     const toggleEditUserModal = async (user) => {
         setIsOpenEditUserModal(!isOpenEditUserModal);
-        emitter.emit('EVENT_BINDING_EDIT_USER_MODAL', { ...user });
+        // emitter.emit('EVENT_BINDING_EDIT_USER_MODAL', { ...user });
     }
 
     const getUsers = async (id) => {
@@ -109,8 +110,6 @@ export const UserManageFunc = (props) => {
     const refreshGrid = async () => {
         return await getUsers('all');
     }
-
-
 
     const columns = [
         { field: 'id', headerName: 'ID', hide: true },
@@ -185,15 +184,23 @@ export const UserManageFunc = (props) => {
             <CreateUserModalFunc
                 isOpen={isOpenCreateUserModal}
                 onClose={toggleCreateUserModal}
-                passingData={selectedRowdata}
+                passingData={initUserData}
                 refreshGrid={refreshGrid}
             />
 
-            <EditUserModal
+            {/* <EditUserModal
                 isOpen={isOpenEditUserModal}
                 toggleEditUserModal={toggleEditUserModal}
                 editUserAsync={editUserAsync}
+            /> */}
+
+            <EditUserDialog
+                isOpen={isOpenEditUserModal}
+                onClose={toggleEditUserModal}
+                passingData={selectedRowData}
+                refreshGrid={refreshGrid}
             />
+
             <div className='title text-center'>User Management</div>
             <div className='container'>
                 <div className='my-1'>
@@ -226,7 +233,10 @@ export const UserManageFunc = (props) => {
                     onPageChange={(newPage) => handlePageChange(newPage)}
                     onPageSizeChange={(newPageSize) => handlePageSizeChange(newPageSize)}
 
-                    onSelectionModelChange={(arrIds) => handleRowSelection(arrIds)}
+                    onSelectionModelChange={(newSelectedRowId) => {
+                        handleRowSelection(newSelectedRowId)
+                    }}
+                    selectionModel={selectedRowData}
                 />
             </div>
         </React.Fragment>
