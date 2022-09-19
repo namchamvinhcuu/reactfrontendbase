@@ -44,10 +44,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontSize: '14px',
     },
 
-    '&.Mui-selected': {
-        backgroundColor: 'yellow'
-    },
-
     '& .MuiDataGrid-footerContainer': {
         display: 'flex',
         alignItems: 'center',
@@ -131,8 +127,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        rowHeight={rowHeight}
-
+                        // rowHeight={rowHeight}
+                        getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 
@@ -152,8 +148,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        rowHeight={rowHeight}
-
+                        // rowHeight={rowHeight}
+                        getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 

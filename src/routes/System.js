@@ -8,6 +8,7 @@ import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroup
 import UserManage from '../containers/System/UserManage';
 import UserManageFunc from '../containers/System/UserManageFunc';
 import UserManageRedux from '../containers/System/Admin/UserManageRedux';
+import UserManageReduxFunc from '../containers/System/Admin/UserManageReduxFunc';
 import Header from '../containers/Header/Header';
 
 class System extends Component {
@@ -21,7 +22,7 @@ class System extends Component {
                         <Switch>
                             {/* <Route path="/system/user-manage" component={UserManage} /> */}
                             <Route path="/system/user-manage" component={UserManageFunc} />
-                            <Route path="/system/user-manage-redux" component={UserManageRedux} />
+                            <Route path="/system/user-manage-redux" component={UserManageReduxFunc} />
                             <Route path="/system/product-manage" component={ProductManage} />
                             <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />

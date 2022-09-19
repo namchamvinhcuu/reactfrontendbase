@@ -1,21 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import './UserManage.scss'
 
 // import * as userService from '../../services/userService'
 import { userService } from '@services'
-import { emitter } from '../../utils/emitter'
-import { useModal } from '@hooks'
 
 import {
     Button,
+    Grid
 } from '@mui/material'
+// import Grid from '@mui/material/Unstable_Grid2'
+import IconButton from '@mui/material/IconButton'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
-import CreateUserModal from './CreateUserModal'
 import CreateUserModalFunc from './CreateUserModalFunc'
-import EditUserModal from './EditUserModal'
 import EditUserDialog from './EditUserDialog'
+import { Box, Container } from '@mui/system'
 
 export const UserManageFunc = (props) => {
 
@@ -116,34 +118,54 @@ export const UserManageFunc = (props) => {
         {
             field: "action",
             headerName: "",
-            flex: 0.7,
+            flex: 0.3,
             // headerAlign: 'center',
             disableClickEventBubbling: true,
             sortable: false,
             disableColumnMenu: true,
             renderCell: (params) => {
                 return (
-                    <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', width: '100%' }}>
-                        <Button
-                            variant="outlined"
-                            color="warning"
-                            size="small"
-                            sx={{ margin: '2px' }}
-                            onClick={() => toggleEditUserModal(params.row)}
-                        >
-                            <i className="fas fa-edit" aria-hidden="true"></i>
-                        </Button>
+                    <Grid container spacing={1} alignItems="center" justifyContent="center">
+                        <Grid item xs={6}>
+                            <IconButton
+                                aria-label="edit"
+                                color="warning"
+                                size="small"
+                                sx={
+                                    [
+                                        {
+                                            '&:hover': {
+                                                border: '1px solid orange',
+                                            },
+                                        }
+                                    ]
+                                }
+                                onClick={() => toggleEditUserModal(params.row)}
+                            >
+                                <EditIcon fontSize="inherit" />
+                            </IconButton>
+                        </Grid>
 
-                        <Button
-                            variant="outlined"
-                            color="error"
-                            size="small"
-                            sx={{ margin: '2px' }}
-                            onClick={() => handleDeleteUser(params.row)}
-                        >
-                            <i className="fas fa-trash" aria-hidden="true"></i>
-                        </Button>
-                    </div>
+                        <Grid item xs={6}>
+                            <IconButton
+                                aria-label="delete"
+                                color="error"
+                                size="small"
+                                sx={
+                                    [
+                                        {
+                                            '&:hover': {
+                                                border: '1px solid red',
+                                            },
+                                        }
+                                    ]
+                                }
+                                onClick={() => handleDeleteUser(params.row)}
+                            >
+                                <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 );
             },
         },
@@ -188,12 +210,6 @@ export const UserManageFunc = (props) => {
                 refreshGrid={refreshGrid}
             />
 
-            {/* <EditUserModal
-                isOpen={isOpenEditUserModal}
-                toggleEditUserModal={toggleEditUserModal}
-                editUserAsync={editUserAsync}
-            /> */}
-
             <EditUserDialog
                 isOpen={isOpenEditUserModal}
                 onClose={toggleEditUserModal}
@@ -220,7 +236,7 @@ export const UserManageFunc = (props) => {
                     isPagingServer={false}
 
                     headerHeight={45}
-                    rowHeight={30}
+                    // rowHeight={30}
 
                     columns={columns}
                     rows={arrUsers.length ? arrUsers : []}

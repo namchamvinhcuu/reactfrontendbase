@@ -6,10 +6,10 @@ const useFormCustom = (initialModel) => {
 
     const handleInputChange = e => {
         const { name, value } = e.target;
-        setValues({
+        setValues(values => ({
             ...values,
             [name]: value
-        });
+        }));
     }
 
     return {

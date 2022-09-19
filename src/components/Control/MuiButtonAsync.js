@@ -92,20 +92,22 @@ const MuiButtonAsync = (props) => {
     }
 
     return (
-        icon ? <LoadingButton
-            loading={isPending}
-            startIcon={renderIcon(icon)}
+        icon ?
+            <LoadingButton
+                loading={isPending}
+                startIcon={renderIcon(icon)}
 
-            loadingPosition="start"
-            variant="contained"
-            color={icon === "clear" ? 'error' : 'primary'}
-            {...others}
-            onClick={handleClick}
-            type='submit'
-        >
-            {text}
-        </LoadingButton>
-            : <LoadingButton
+                loadingPosition="start"
+                variant="contained"
+                color={icon === "clear" ? 'error' : 'primary'}
+                {...others}
+                onClick={handleClick}
+                type='submit'
+            >
+                {text}
+            </LoadingButton>
+            :
+            <LoadingButton
                 loading={isPending}
                 variant="contained"
                 {...others}

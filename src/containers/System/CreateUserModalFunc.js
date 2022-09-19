@@ -1,18 +1,18 @@
 import { MuiDialog } from '@controls';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from '@services';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import TextField from '@mui/material/TextField';
+import { useFormCustom } from '@hooks';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useFormCustom } from '@hooks'
 
 export const CreateUserModalFunc = (props) => {
 
