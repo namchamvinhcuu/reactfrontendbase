@@ -1,6 +1,6 @@
 import React, { useImperativeHandle } from 'react'
 import Button from '@mui/material/Button'
-import RefreshIcon from '@mui/icons-material/Refresh'
+import AddIcon from '@mui/icons-material/Add'
 import { styled } from "@mui/material/styles"
 import { FormattedMessage } from 'react-intl'
 
@@ -10,9 +10,9 @@ const StyledButton = styled(Button)(({ theme, color }) => ({
     // backgroundColor: color ? theme.palette[color].light : undefined
 }));
 
-const MuiResetButton = React.forwardRef((props, ref) => {
+const MuiCreateButton = React.forwardRef((props, ref) => {
 
-    const { onClick, ...others } = props;
+    const { variant, color, onClick, ...others } = props;
 
     useImperativeHandle(ref, () => ({
 
@@ -20,15 +20,15 @@ const MuiResetButton = React.forwardRef((props, ref) => {
 
     return (
         <StyledButton
-            startIcon={<RefreshIcon />}
-            variant="outlined"
-            color="secondary"
+            startIcon={<AddIcon />}
+            variant={variant ?? "contained"}
+            color={color ?? "success"}
             onClick={onClick}
             {...others}
         >
-            <FormattedMessage id="common.reset" />
+            <FormattedMessage id="common.create" />
         </StyledButton>
     )
 })
 
-export default MuiResetButton
+export default MuiCreateButton

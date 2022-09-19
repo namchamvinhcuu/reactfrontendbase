@@ -3,6 +3,7 @@ import MuiDataGridFunc from "./MuiDataGridFunc"
 import MuiDialog from "./MuiDialog"
 import MuiSubmitButton from "./MuiSubmitButton"
 import MuiResetButton from "./MuiResetButton"
+import MuiCreateButton from "./MuiCreateButton"
 import MuiTextField from "./MuiTextField"
 
 export {
@@ -11,5 +12,6 @@ export {
     MuiDialog,
     MuiSubmitButton,
     MuiResetButton,
+    MuiCreateButton,
     MuiTextField
 }

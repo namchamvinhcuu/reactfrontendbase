@@ -9,8 +9,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useFormCustom } from '@hooks'
+import UserManageFunc from '../UserManageFunc'
 
-import { MuiTextField } from '@controls'
+// import { MuiTextField } from '@controls'
 
 export const UserManageReduxFunc = (props) => {
 
@@ -39,7 +40,7 @@ export const UserManageReduxFunc = (props) => {
         password: yup.string().min(3).required(),
         firstName: yup.string().min(3).required(),
         lastName: yup.string().min(3).required(),
-        address: yup.string().min(3).required(),
+        // address: yup.string().min(3).required(),
     });
     const { register, formState: { errors }, handleSubmit, clearErrors } = useForm({
         mode: 'onChange',
@@ -77,7 +78,7 @@ export const UserManageReduxFunc = (props) => {
                 </Grid>
 
                 <Grid container spacing={2} sx={{ padding: "5px 0" }}>
-                    <Grid xs={6}>
+                    <Grid xs={4}>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Paper
                                 sx={{
@@ -218,6 +219,9 @@ export const UserManageReduxFunc = (props) => {
                         </form>
                     </Grid>
 
+                    <Grid xs={8}>
+                        <UserManageFunc />
+                    </Grid>
                 </Grid>
             </Container>
 

@@ -18,6 +18,7 @@ import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
 import CreateUserModalFunc from './CreateUserModalFunc'
 import EditUserDialog from './EditUserDialog'
 import { Box, Container } from '@mui/system'
+import { MuiCreateButton } from '@controls'
 
 export const UserManageFunc = (props) => {
 
@@ -220,14 +221,18 @@ export const UserManageFunc = (props) => {
             <div className='title text-center'>User Management</div>
             <div className='container'>
                 <div className='my-1'>
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="primary"
                         onClick={toggleCreateUserModal}
                     >
                         <i className="fas fa-plus"></i>
                         Create
-                    </Button>
+                    </Button> */}
+
+                    <MuiCreateButton
+                        onClick={toggleCreateUserModal}
+                    />
                 </div>
 
                 <MuiDataGridFunc

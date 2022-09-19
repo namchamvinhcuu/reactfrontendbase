@@ -11,15 +11,20 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
+import { MuiResetButton, MuiSubmitButton } from '@controls'
+import { TextField } from '@mui/material'
 
 export const CreateUserModalFunc = (props) => {
 
     const { isOpen, onClose, passingData, refreshGrid, ...others } = props;
+    const [isSubmit, setIsSubmit] = useState(false);
+
 
     const initData = { ...passingData }
     const dataModalRef = useRef(initData);
+    // const isDisableEle = useRef(false);
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -37,10 +42,12 @@ export const CreateUserModalFunc = (props) => {
         event.preventDefault();
     };
 
+
     const onSubmit = async (data) => {
         dataModalRef.current = { ...passingData, ...data };
-
+        setIsSubmit(true);
         await createUserAsync(dataModalRef.current);
+        setIsSubmit(false);
 
         handleCloseDialog();
     };
@@ -88,21 +95,25 @@ export const CreateUserModalFunc = (props) => {
 
     return (
         <React.Fragment>
-            <form onSubmit={
-                handleSubmit(onSubmit)
-            }>
-                <MuiDialog
-                    maxWidth='sm'
-                    title='Create User'
-                    isOpen={isOpen}
-                    disable_animate={300}
-                    onClose={handleCloseDialog}
-                    onReset={handleReset}
+            <MuiDialog
+                maxWidth='sm'
+                title='Create User'
+                isOpen={isOpen}
+                disabledCloseBtn={isSubmit}
+                disable_animate={300}
+                onClose={handleCloseDialog}
+            >
+                <form
+                    style={{
+                        paddingTop: '10px'
+                    }}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
+                    <Grid container spacing={1}>
+                        <Grid xs={6}>
 
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid sm={6}>
                             <TextField
+                                disabled={isSubmit}
                                 label='Email'
                                 variant='outlined'
                                 size='small'
@@ -112,13 +123,14 @@ export const CreateUserModalFunc = (props) => {
                                 {...register('email', {
                                     onChange: (e) => handleInputChange(e)
                                 })}
-
                                 error={!!errors?.email}
                                 helperText={errors?.email ? errors.email.message : null}
+
                             />
                         </Grid>
-                        <Grid sm={6}>
+                        <Grid xs={6}>
                             <TextField
+                                disabled={isSubmit}
                                 label='Password'
                                 variant='outlined'
                                 size='small'
@@ -145,11 +157,11 @@ export const CreateUserModalFunc = (props) => {
                                     )
                                 }}
                             />
-
                         </Grid>
-                        <Grid sm={6}>
+                        <Grid xs={6}>
                             <TextField
-                                label='First name'
+                                disabled={isSubmit}
+                                label='First Name'
                                 variant='outlined'
                                 size='small'
                                 fullWidth
@@ -158,13 +170,15 @@ export const CreateUserModalFunc = (props) => {
                                 {...register('firstName', {
                                     onChange: (e) => handleInputChange(e)
                                 })}
+
                                 error={!!errors?.firstName}
                                 helperText={errors?.firstName ? errors.firstName.message : null}
                             />
                         </Grid>
-                        <Grid sm={6}>
+                        <Grid xs={6}>
                             <TextField
-                                label='Last name'
+                                disabled={isSubmit}
+                                label='Last Name'
                                 variant='outlined'
                                 size='small'
                                 fullWidth
@@ -173,19 +187,23 @@ export const CreateUserModalFunc = (props) => {
                                 {...register('lastName', {
                                     onChange: (e) => handleInputChange(e)
                                 })}
+
                                 error={!!errors?.lastName}
                                 helperText={errors?.lastName ? errors.lastName.message : null}
                             />
+
+
                         </Grid>
-                        <Grid sm={12}>
+                        <Grid xs={12}>
                             <TextField
+                                disabled={isSubmit}
                                 label='Address'
                                 variant='outlined'
                                 size='small'
                                 fullWidth
+                                name='address'
                                 multiline
                                 rows={2}
-                                name='address'
                                 value={values.address}
                                 {...register('address', {
                                     onChange: (e) => handleInputChange(e)
@@ -193,10 +211,29 @@ export const CreateUserModalFunc = (props) => {
                                 error={!!errors?.address}
                                 helperText={errors?.address ? errors.address.message : null}
                             />
+
+
                         </Grid>
+                        <Grid xs={12}>
+                            <Grid
+                                container
+                                direction="row-reverse"
+                            >
+                                <MuiResetButton
+                                    onClick={handleReset}
+                                    disabled={isSubmit}
+                                />
+
+                                <MuiSubmitButton
+                                    text="save"
+                                    loading={isSubmit}
+                                />
+                            </Grid>
+                        </Grid>
+
                     </Grid>
-                </MuiDialog>
-            </form>
+                </form>
+            </MuiDialog>
         </React.Fragment>
     )
 }
