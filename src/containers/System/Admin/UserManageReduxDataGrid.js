@@ -192,7 +192,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUser: async () => dispatch(actions.getUserStart())
+        getUser: async () => dispatch(actions.getUser())
     };
 };
 

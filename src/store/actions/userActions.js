@@ -11,7 +11,7 @@ export const userLoginFail = () => ({
     type: actionTypes.USER_LOGIN_FAIL
 })
 
-export const getUserStart = () => {
+export const getUser = () => {
     // type: actionTypes.GET_USER_START,
 
     return async (dispatch, getState) => {
@@ -38,6 +38,26 @@ export const getUserSuccess = (userArr) => ({
 export const getUserFail = () => ({
     type: actionTypes.GET_USER_FAIL
 })
+
+/** CREATE NEW USER */
+export const addUser = (user) => {
+    // type: actionTypes.GET_USER_START,
+
+    return async (dispatch, getState) => {
+        try {
+            const res = await userService.createUser(user);
+            if (res && res.errCode === 0) {
+                dispatch(getUserSuccess());
+            }
+            else {
+                dispatch(getUserFail());
+            }
+        } catch (error) {
+            dispatch(getUserFail());
+        }
+    }
+
+}
 
 export const addUserSuccess = (newUser) => ({
     type: actionTypes.ADD_USER_SUCCESS,

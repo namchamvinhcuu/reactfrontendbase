@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-
+import * as actions from '@actions'
 import { MuiResetButton, MuiSubmitButton } from '@controls'
 import { Paper, TextField } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -25,7 +25,8 @@ export const UserManageReduxFunc = (props) => {
     }
 
     const dataModalRef = useRef(initUserData);
-    // const elRef = useRef();
+
+    const { newUser } = props;
 
     const [isSubmit, setIsSubmit] = useState(false);
 
@@ -60,19 +61,22 @@ export const UserManageReduxFunc = (props) => {
     const onSubmit = async (data) => {
         setIsSubmit(true);
 
-        await delay(10000);
+        await delay(5000);
         dataModalRef.current = { ...initUserData, ...data };
         console.log('submit data:', dataModalRef.current)
+
+        props.addUser(dataModalRef.current);
         setIsSubmit(false);
 
     }
 
     useEffect(() => {
+
     }, []);
 
     return (
         <React.Fragment>
-            <Container maxWidth={false}>
+            <Container maxWidth='false'>
 
                 <Grid container justifyContent="center" spacing={2} sx={{ padding: "2px 0" }}>
                     <Grid xs={12} className="title">
@@ -211,7 +215,7 @@ export const UserManageReduxFunc = (props) => {
                                             />
 
                                             <MuiSubmitButton
-                                                text="save"
+                                                text="create"
                                                 loading={isSubmit}
                                             />
                                         </Grid>
@@ -234,14 +238,19 @@ export const UserManageReduxFunc = (props) => {
 }
 
 const mapStateToProps = (state) => {
+
+    console.log('newUser', state.user.newUser);
     return {
         /** using for multi-language */
         language: state.app.language,
+        newUser: state.user.newUser,
     };
 }
 
-const mapDispatchToProps = {
-
-}
+const mapDispatchToProps = dispatch => {
+    return {
+        addUser: async (user) => dispatch(actions.addUser(user))
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManageReduxFunc)
