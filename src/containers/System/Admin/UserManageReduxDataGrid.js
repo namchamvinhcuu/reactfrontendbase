@@ -9,18 +9,39 @@ import IconButton from '@mui/material/IconButton'
 
 import * as actions from '@actions'
 import { MuiDataGridFunc } from '@controls'
+import { EditUserDialog } from '../EditUserDialog'
+
+import { userService } from '@services'
 
 export const UserManageReduxDataGrid = (props) => {
 
     const { userArr, language } = props;
 
-    const ref = useRef();
+    const userGridRef = useRef();
     const [isOpenEditUserModal, setIsOpenEditUserModal] = useState(false);
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(5);
-    const [rowCount, setRowCount] = useState(userArr?.totalRowCount || 0);
+    const [rowCount, setRowCount] = useState(userArr?.length || 0);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
+
+    const toggleEditUserModal = async (user) => {
+        setIsOpenEditUserModal(!isOpenEditUserModal);
+        // emitter.emit('EVENT_BINDING_EDIT_USER_MODAL', { ...user });
+    }
+
+    const handleDeleteUser = async (user) => {
+        if (window.confirm("Delete the item?")) {
+            try {
+                let res = await userService.deleteUser(user.id);
+                if (res && res.errCode === 0) {
+                    await props.getUser();
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', hide: true },
@@ -40,16 +61,8 @@ export const UserManageReduxDataGrid = (props) => {
                                 aria-label="edit"
                                 color="warning"
                                 size="small"
-                                sx={
-                                    [
-                                        {
-                                            '&:hover': {
-                                                border: '1px solid orange',
-                                            },
-                                        }
-                                    ]
-                                }
-                            // onClick={() => toggleEditUserModal(params.row)}
+                                sx={[{ '&:hover': { border: '1px solid orange', }, }]}
+                                onClick={() => toggleEditUserModal(params.row)}
                             >
                                 <EditIcon fontSize="inherit" />
                             </IconButton>
@@ -60,16 +73,8 @@ export const UserManageReduxDataGrid = (props) => {
                                 aria-label="delete"
                                 color="error"
                                 size="small"
-                                sx={
-                                    [
-                                        {
-                                            '&:hover': {
-                                                border: '1px solid red',
-                                            },
-                                        }
-                                    ]
-                                }
-                            // onClick={() => handleDeleteUser(params.row)}
+                                sx={[{ '&:hover': { border: '1px solid red', }, }]}
+                                onClick={() => handleDeleteUser(params.row)}
                             >
                                 <DeleteIcon fontSize="inherit" />
                             </IconButton>
@@ -92,6 +97,10 @@ export const UserManageReduxDataGrid = (props) => {
         },
     ];
 
+    const refreshGrid = async () => {
+        return await props.getUser();
+    }
+
     const handlePageChange = (newPage) => {
         setPage(newPage);
     };
@@ -103,7 +112,7 @@ export const UserManageReduxDataGrid = (props) => {
 
     const handleRowSelection = (arrIds) => {
 
-        let currentGridData = ref.current.getDataGrid();
+        let currentGridData = userGridRef.current.getDataGrid();
         let selectedRow = currentGridData.filter(function (item) {
             return item.id === arrIds[0]
         });
@@ -117,40 +126,62 @@ export const UserManageReduxDataGrid = (props) => {
     }
 
     useEffect(() => {
+        const initUserArr = async () => {
+            await props.getUser();
+        }
 
-        console.log('getUser', props.getUser())
-
-        // Chỉ định clean up sau khi gọi effect:
-        return function cleanup() {
-
-        };
+        initUserArr();
     }, []);
 
+    useEffect(() => {
+        setRowCount((prevRowCountState) => {
+            return userArr.length !== 0 ? userArr.length : prevRowCountState
+        });
+        console.log(userArr)
+    }, [userArr]);
+
+    useEffect(() => {
+
+        return () => {
+            //Clear when component un-mounted
+        };
+    });
+
     return (
-        <MuiDataGridFunc
-            ref={ref}
-            showLoading={isLoading}
-            isPagingServer={false}
+        <React.Fragment>
+            <MuiDataGridFunc
+                ref={userGridRef}
+                showLoading={isLoading}
+                isPagingServer={false}
 
-            headerHeight={45}
-            // rowHeight={30}
+                headerHeight={45}
+                // rowHeight={30}
 
-            columns={columns}
-            rows={userArr.length ? userArr : []}
+                columns={columns}
+                rows={userArr.length ? userArr : []}
 
-            page={page}
-            pageSize={pageSize}
-            rowCount={rowCount}
-            rowsPerPageOptions={[5, 10, 20]}
+                page={page}
+                pageSize={pageSize}
+                rowCount={rowCount}
+                rowsPerPageOptions={[5, 10, 20]}
 
-            onPageChange={(newPage) => handlePageChange(newPage)}
-            onPageSizeChange={(newPageSize) => handlePageSizeChange(newPageSize)}
+                onPageChange={(newPage) => handlePageChange(newPage)}
+                onPageSizeChange={(newPageSize) => handlePageSizeChange(newPageSize)}
 
-            onSelectionModelChange={(newSelectedRowId) => {
-                handleRowSelection(newSelectedRowId)
-            }}
-            selectionModel={selectedRowData}
-        />
+                onSelectionModelChange={(newSelectedRowId) => {
+                    handleRowSelection(newSelectedRowId)
+                }}
+                selectionModel={selectedRowData}
+            />
+
+            <EditUserDialog
+                isOpen={isOpenEditUserModal}
+                onClose={toggleEditUserModal}
+                passingData={selectedRowData}
+                refreshGrid={refreshGrid}
+            />
+        </React.Fragment>
+
     )
 }
 
@@ -161,7 +192,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUser: () => dispatch(actions.getUserStart())
+        getUser: async () => dispatch(actions.getUserStart())
     };
 };
 
