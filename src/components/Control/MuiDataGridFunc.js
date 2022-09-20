@@ -127,8 +127,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        // rowHeight={rowHeight}
-                        getRowHeight={() => 'auto'}
+                        rowHeight={rowHeight ?? 32}
+                        // getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 
@@ -148,8 +148,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        // rowHeight={rowHeight}
-                        getRowHeight={() => 'auto'}
+                        rowHeight={rowHeight ?? 32}
+                        // getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 

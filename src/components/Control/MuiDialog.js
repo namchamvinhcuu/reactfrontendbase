@@ -1,19 +1,13 @@
 import {
-    Button, Dialog,
-    DialogActions,
-    DialogContent,
+    Dialog, DialogContent,
     DialogTitle, Fade,
     Grow, IconButton, Paper, Slide, Zoom
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2'
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import MuiButtonAsync from './MuiButtonAsync';
 
 import CloseIcon from '@mui/icons-material/Close';
-import RefreshIcon from '@mui/icons-material/Refresh';
 
-import { Box } from '@mui/system';
 import Draggable from 'react-draggable';
 import ShortUniqueId from "short-unique-id";
 
@@ -34,10 +28,9 @@ const Transition_Slide_Down = React.forwardRef(function Transition(props, ref) {
 
 const uid = new ShortUniqueId();
 
-export const MuiDialog = ({ isOpen, onClose, title, disable_animate, maxWidth, ...others }) => {
+export const MuiDialog = ({ isOpen, onClose, title, disable_animate, maxWidth, disabledCloseBtn, ...others }) => {
 
-    const { animate, disabledCloseBtn } = others;
-    console.log('disabledCloseBtn', disabledCloseBtn)
+    const { animate } = others;
 
     const [dialogId, setDialogId] = React.useState(uid());
     const [data, setData] = useState({});

@@ -1,7 +1,7 @@
 import { MuiDialog } from '@controls';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from '@services';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
@@ -25,6 +25,8 @@ export const CreateUserModalFunc = (props) => {
     const initData = { ...passingData }
     const dataModalRef = useRef(initData);
     // const isDisableEle = useRef(false);
+
+
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -89,9 +91,8 @@ export const CreateUserModalFunc = (props) => {
         clearErrors();
     }
 
-    // useEffect(() => {
-    //     console.log('dataModal after change', dataModal);
-    // }, [dataModal]);
+    useEffect(() => {
+    }, []);
 
     return (
         <React.Fragment>
@@ -109,7 +110,7 @@ export const CreateUserModalFunc = (props) => {
                     }}
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <Grid container spacing={1}>
+                    <Grid container rowSpacing={2.5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid xs={6}>
 
                             <TextField
