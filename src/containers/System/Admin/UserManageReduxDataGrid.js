@@ -137,7 +137,6 @@ export const UserManageReduxDataGrid = (props) => {
         setRowCount((prevRowCountState) => {
             return userArr.length !== 0 ? userArr.length : prevRowCountState
         });
-        console.log(userArr)
     }, [userArr]);
 
     useEffect(() => {

@@ -67,6 +67,7 @@ export const UserManageReduxFunc = (props) => {
 
         props.addUser(dataModalRef.current);
         setIsSubmit(false);
+        onReset();
 
     }
 

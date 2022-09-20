@@ -47,13 +47,13 @@ export const addUser = (user) => {
         try {
             const res = await userService.createUser(user);
             if (res && res.errCode === 0) {
-                dispatch(getUserSuccess());
+                dispatch(getUser());
             }
             else {
-                dispatch(getUserFail());
+                dispatch(addUserFail());
             }
         } catch (error) {
-            dispatch(getUserFail());
+            dispatch(addUserFail());
         }
     }
 
