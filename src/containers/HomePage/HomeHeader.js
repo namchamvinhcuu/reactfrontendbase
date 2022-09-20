@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { languages } from '../../utils';
 
 // import { changeLanguage } from '../../store/actions'
-import * as actions from "../../store/actions";
+import * as actions from "@actions";
 
 import './HomeHeader.scss'
 

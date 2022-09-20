@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { MuiResetButton, MuiSubmitButton } from '@controls'
@@ -9,12 +9,12 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useFormCustom } from '@hooks'
-import UserManageFunc from '../UserManageFunc'
+// import UserManageFunc from '../UserManageFunc'
+import UserManageReduxDataGrid from './UserManageReduxDataGrid'
 
 // import { MuiTextField } from '@controls'
 
 export const UserManageReduxFunc = (props) => {
-
     const initUserData = {
         id: 0
         , email: ''
@@ -66,6 +66,9 @@ export const UserManageReduxFunc = (props) => {
         setIsSubmit(false);
 
     }
+
+    useEffect(() => {
+    }, []);
 
     return (
         <React.Fragment>
@@ -220,7 +223,8 @@ export const UserManageReduxFunc = (props) => {
                     </Grid>
 
                     <Grid xs={8}>
-                        <UserManageFunc />
+                        {/* <UserManageFunc /> */}
+                        <UserManageReduxDataGrid />
                     </Grid>
                 </Grid>
             </Container>
@@ -229,8 +233,15 @@ export const UserManageReduxFunc = (props) => {
     )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => {
+    return {
+        /** using for multi-language */
+        language: state.app.language,
+    };
+}
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManageReduxFunc)

@@ -48,7 +48,7 @@ module.exports = {
             '@controls': path.join(__dirname, './src/components/Control'),
             "@utils": path.resolve(__dirname, './src/utils'),
             "@services": path.resolve(__dirname, './src/services'),
-            // "@views": path.resolve(__dirname, './src/views'),
+            "@actions": path.resolve(__dirname, './src/store/actions'),
             // "@states": path.resolve(__dirname, './src/states'),
             // "@appstate": path.resolve(__dirname, './src/states/app'),
 

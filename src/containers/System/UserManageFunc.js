@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
+import { MuiDataGridFunc } from '@controls'
 import CreateUserModalFunc from './CreateUserModalFunc'
 import EditUserDialog from './EditUserDialog'
 import { Box, Container } from '@mui/system'
