@@ -4,7 +4,7 @@ const initialState = {
     isLoggedIn: false,
     userInfo: null,
     newUser: {},
-    userArr: []
+    userArr: {}
 }
 
 const userReducer = (state = initialState, action) => {
@@ -29,7 +29,7 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.GET_USER_SUCCESS:
             return {
                 ...state,
-                userArr: [...action.userArr]
+                userArr: { ...action.userArr }
             }
         case actionTypes.GET_USER_FAIL:
             return {

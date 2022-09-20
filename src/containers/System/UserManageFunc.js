@@ -33,12 +33,12 @@ export const UserManageFunc = (props) => {
         , address: ''
     }
 
-    const [arrUsers, setArrUsers] = useState([]);
+    const [arrUsers, setArrUsers] = useState({});
     const [isOpenCreateUserModal, setIsOpenCreateUserModal] = useState(false);
     const [isOpenEditUserModal, setIsOpenEditUserModal] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const [rowCount, setRowCount] = useState(arrUsers?.totalRowCount || 0);
+    const [rowCount, setRowCount] = useState(arrUsers?.count || 0);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({ ...initUserData });
 
@@ -52,9 +52,14 @@ export const UserManageFunc = (props) => {
     }
 
     const getUsers = async (id) => {
-        let res = await userService.getUsers(id);
+        const params = {
+            id: id,
+            page: page,
+            pageSize: pageSize
+        }
+        let res = await userService.getUsers(params);
         if (res && res.errCode === 0) {
-            setArrUsers([...res.users]);
+            setArrUsers({ ...res.users });
         }
     }
 
@@ -193,13 +198,14 @@ export const UserManageFunc = (props) => {
         fetchData()
             // make sure to catch any error
             .catch(console.error);
-    }, []);
+    }, [page, pageSize]);
 
     useEffect(() => {
-        setRowCount((prevRowCountState) => {
-            return arrUsers.length !== 0 ? arrUsers.length : prevRowCountState
-        });
-    }, [arrUsers.length, setRowCount]);
+        // setRowCount((prevRowCountState) => {
+        //     return arrUsers.count !== 0 ? arrUsers.count : prevRowCountState
+        // });
+        setRowCount(arrUsers.count !== 0 ? arrUsers.count : 0)
+    }, [arrUsers.rows, setRowCount]);
 
     return (
         <React.Fragment>
@@ -238,13 +244,13 @@ export const UserManageFunc = (props) => {
                 <MuiDataGridFunc
                     ref={ref}
                     showLoading={isLoading}
-                    isPagingServer={false}
+                    isPagingServer={true}
 
                     headerHeight={45}
                     // rowHeight={30}
 
                     columns={columns}
-                    rows={arrUsers.length ? arrUsers : []}
+                    rows={arrUsers.rows ? arrUsers.rows : []}
 
                     page={page}
                     pageSize={pageSize}
@@ -264,7 +270,9 @@ export const UserManageFunc = (props) => {
     );
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+    userArr: state.user.userArr,
+})
 
 const mapDispatchToProps = {}
 

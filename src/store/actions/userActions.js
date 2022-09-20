@@ -11,14 +11,15 @@ export const userLoginFail = () => ({
     type: actionTypes.USER_LOGIN_FAIL
 })
 
-export const getUser = () => {
+export const getUser = (params) => {
     // type: actionTypes.GET_USER_START,
 
     return async (dispatch, getState) => {
         try {
-            const res = await userService.getUsers('all');
+            const res = await userService.getUsers(params);
             if (res && res.errCode === 0) {
-                dispatch(getUserSuccess([...res.users]));
+                console.log('action', res.users)
+                dispatch(getUserSuccess({ ...res.users }));
             }
             else {
                 dispatch(getUserFail());

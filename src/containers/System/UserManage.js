@@ -198,7 +198,7 @@ class UserManage extends Component {
 
 
 
-                    <MuiDataGrid
+                    {/* <MuiDataGrid
                         autoHeight
                         showLoading
                         columns={this.columns}
@@ -206,7 +206,7 @@ class UserManage extends Component {
                         pageSize={6}
                         rowsPerPageOptions={[6, 10, 50]}
                         IsPagingServer={true}
-                    />
+                    /> */}
                 </div>
             </React.Fragment>
         );

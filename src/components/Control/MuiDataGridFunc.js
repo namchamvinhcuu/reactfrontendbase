@@ -111,6 +111,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
 
     } = props;
 
+    console.log('rowCount', rowCount)
+
     useImperativeHandle(ref, () => ({
         getDataGrid: () => getDataGrid(),
     }));
@@ -134,9 +136,9 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
 
                         pagination
                         paginationMode="server"
-                        page={page}
-                        pageSize={pageSize}
-                        rowCount={rowCount}
+                        page={page ?? 1}
+                        pageSize={pageSize ?? 0}
+                        rowCount={rowCount ?? 0}
                         rowsPerPageOptions={rowsPerPageOptions}
 
                         onPageChange={onPageChange}
@@ -154,9 +156,9 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                         rows={rows}
 
                         pagination
-                        page={page}
-                        pageSize={pageSize}
-                        rowCount={rowCount}
+                        page={page ?? 1}
+                        pageSize={pageSize ?? 0}
+                        rowCount={rowCount ?? 0}
                         rowsPerPageOptions={rowsPerPageOptions}
 
                         onPageChange={onPageChange}

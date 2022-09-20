@@ -19,9 +19,9 @@ export const UserManageReduxDataGrid = (props) => {
 
     const userGridRef = useRef();
     const [isOpenEditUserModal, setIsOpenEditUserModal] = useState(false);
-    const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(5);
-    const [rowCount, setRowCount] = useState(userArr?.length || 0);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(2);
+    const [rowCount, setRowCount] = useState(userArr?.count || 0);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
 
@@ -127,15 +127,22 @@ export const UserManageReduxDataGrid = (props) => {
 
     useEffect(() => {
         const initUserArr = async () => {
-            await props.getUser();
+            const params = {
+                id: 'all',
+                page: page,
+                pageSize: pageSize
+            }
+            await props.getUser(params);
         }
 
         initUserArr();
-    }, []);
+
+        console.log('userArr.rows', userArr)
+    }, [page, pageSize]);
 
     useEffect(() => {
         setRowCount((prevRowCountState) => {
-            return userArr.length !== 0 ? userArr.length : prevRowCountState
+            return userArr.count !== 0 ? userArr.count : prevRowCountState
         });
     }, [userArr]);
 
@@ -151,18 +158,18 @@ export const UserManageReduxDataGrid = (props) => {
             <MuiDataGridFunc
                 ref={userGridRef}
                 showLoading={isLoading}
-                isPagingServer={false}
+                isPagingServer={true}
 
                 headerHeight={45}
                 // rowHeight={30}
 
                 columns={columns}
-                rows={userArr.length ? userArr : []}
+                rows={userArr.rows ?? []}
 
                 page={page}
                 pageSize={pageSize}
                 rowCount={rowCount}
-                rowsPerPageOptions={[5, 10, 20]}
+                rowsPerPageOptions={[2, 5, 10]}
 
                 onPageChange={(newPage) => handlePageChange(newPage)}
                 onPageSizeChange={(newPageSize) => handlePageSizeChange(newPageSize)}
@@ -191,7 +198,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUser: async () => dispatch(actions.getUser())
+        getUser: async (params) => dispatch(actions.getUser(params))
     };
 };
 
