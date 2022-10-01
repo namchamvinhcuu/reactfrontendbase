@@ -2,19 +2,17 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import './UserManage.scss'
 
-// import * as userService from '../../services/userService'
 import { userService } from '@services'
-import { emitter } from '../../utils/emitter'
-import { useModal } from '@hooks'
 
 import {
     Button,
+    IconButton
 } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import MuiDataGridFunc from '../../components/Control/MuiDataGridFunc'
-import CreateUserModal from './CreateUserModal'
 import CreateUserModalFunc from './CreateUserModalFunc'
-import EditUserModal from './EditUserModal'
 import EditUserDialog from './EditUserDialog'
 
 export const UserManageFunc = (props) => {
@@ -52,21 +50,6 @@ export const UserManageFunc = (props) => {
         let res = await userService.getUsers(id);
         if (res && res.errCode === 0) {
             setArrUsers([...res.users]);
-        }
-    }
-
-    const editUserAsync = async (postData) => {
-        try {
-            let res = await userService.editUser(postData);
-            if (res && res.errCode !== 0) {
-                /** using Toast to show error */
-            }
-            else {
-                await getUsers('all');
-                toggleEditUserModal();
-            }
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -116,7 +99,7 @@ export const UserManageFunc = (props) => {
         {
             field: "action",
             headerName: "",
-            flex: 0.7,
+            flex: 0.2,
             // headerAlign: 'center',
             disableClickEventBubbling: true,
             sortable: false,
@@ -124,7 +107,7 @@ export const UserManageFunc = (props) => {
             renderCell: (params) => {
                 return (
                     <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', width: '100%' }}>
-                        <Button
+                        {/* <Button
                             variant="outlined"
                             color="warning"
                             size="small"
@@ -132,9 +115,18 @@ export const UserManageFunc = (props) => {
                             onClick={() => toggleEditUserModal(params.row)}
                         >
                             <i className="fas fa-edit" aria-hidden="true"></i>
-                        </Button>
+                        </Button> */}
+                        <IconButton
+                            aria-label="edit"
+                            color="warning"
+                            size="small"
+                            sx={{ "&:hover": { border: "1px solid orange" } }}
+                            onClick={() => toggleEditUserModal(params.row)}
+                        >
+                            <EditIcon fontSize="inherit" />
+                        </IconButton>
 
-                        <Button
+                        {/* <Button
                             variant="outlined"
                             color="error"
                             size="small"
@@ -142,7 +134,17 @@ export const UserManageFunc = (props) => {
                             onClick={() => handleDeleteUser(params.row)}
                         >
                             <i className="fas fa-trash" aria-hidden="true"></i>
-                        </Button>
+                        </Button> */}
+
+                        <IconButton
+                            aria-label="delete"
+                            color="error"
+                            size="small"
+                            sx={{ "&:hover": { border: "1px solid red" } }}
+                            onClick={() => handleDeleteUser(params.row)}
+                        >
+                            <DeleteIcon fontSize="inherit" />
+                        </IconButton>
                     </div>
                 );
             },
