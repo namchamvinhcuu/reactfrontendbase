@@ -14,27 +14,27 @@ html {
 
 
 
-label {
-  margin-top: 10px;
-}
+// label {
+//   margin-top: 10px;
+// }
 
-i {
-  margin: 0px 3px;
-}
+// i {
+//   margin: 0px 3px;
+// }
 
-.btn-in-table {
-  margin: 0 2px;
-}
+// .btn-in-table {
+//   margin: 0 2px;
+// }
 
-.btn-group-col {
-  margin         : 3px 0;
-  display        : flex;
-  justify-content: right;
+// .btn-group-col {
+//   margin         : 3px 0;
+//   display        : flex;
+//   justify-content: right;
 
-  button {
-    margin-left: 2px;
-  }
-}
+//   button {
+//     margin-left: 2px;
+//   }
+// }
 
 
 
@@ -201,7 +201,7 @@ i {
 
 .MuiDataGrid-row {
   &.Mui-selected {
-    background-color: #FFD700 !important;
+    background-color: #fff7a5 !important;
   }
 
   &:hover {

@@ -4,8 +4,9 @@ const handleLoginApi = async (email, password) => {
     return axios.post('/api/login', { email, password });
 }
 
-const getUsers = async (id) => {
-    return axios.get('/api/get-users', { params: { id: id } });
+const getUsers = async (params) => {
+    console.log('userParam', params)
+    return axios.get('/api/get-users', { params: { ...params } });
 }
 
 const createUser = async (postData) => {

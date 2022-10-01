@@ -1,7 +1,7 @@
 import { MuiDialog } from '@controls';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from '@services';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
@@ -9,14 +9,15 @@ import * as yup from 'yup';
 import { useFormCustom } from '@hooks';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
+import { MuiResetButton, MuiSubmitButton } from '@controls'
 
 export const EditUserDialog = (props) => {
 
     const { isOpen, onClose, passingData, refreshGrid, ...others } = props;
+    const [isSubmit, setIsSubmit] = useState(false);
 
     const initData = { ...passingData }
     const dataModalRef = useRef(initData);
-
     const {
         values,
         setValues,
@@ -24,10 +25,11 @@ export const EditUserDialog = (props) => {
     } = useFormCustom({});
 
     const onSubmit = async (data) => {
-        dataModalRef.current = { ...passingData, ...data };
+        dataModalRef.current = { ...passingData, ...data, email: initData.email };
 
+        setIsSubmit(true)
         await editUserAsync(dataModalRef.current);
-
+        setIsSubmit(false);
         handleCloseDialog();
     };
 
@@ -46,15 +48,20 @@ export const EditUserDialog = (props) => {
     }
 
     const schema = yup.object().shape({
-        email: yup.string().email().required(),
+        // email: yup.string().email().required(),
         firstName: yup.string().min(3).required(),
         lastName: yup.string().min(3).required(),
         address: yup.string().min(3).required(),
     });
-    const { register, formState: { errors }, handleSubmit, clearErrors } = useForm({
+    const { register, formState: { errors }, handleSubmit, setValue, clearErrors } = useForm({
         mode: 'onChange',
+        reValidateMode: "onChange",
         resolver: yupResolver(schema)
     });
+
+    register('email', {
+        value: passingData.email
+    })
 
     const handleCloseDialog = () => {
         setValues({ ...initData });
@@ -63,6 +70,7 @@ export const EditUserDialog = (props) => {
     }
 
     const handleReset = () => {
+
         setValues({ ...initData });
         clearErrors();
     }
@@ -75,20 +83,25 @@ export const EditUserDialog = (props) => {
 
     return (
         <React.Fragment>
-            <form onSubmit={
-                handleSubmit(onSubmit)
-            }>
-                <MuiDialog
-                    maxWidth='sm'
-                    title='Edit User'
-                    isOpen={isOpen}
-                    disable_animate={300}
-                    onClose={handleCloseDialog}
-                    onReset={handleReset}
-                >
 
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid sm={12}>
+            <MuiDialog
+                maxWidth='sm'
+                title='Edit User'
+                isOpen={isOpen}
+                disable_animate={300}
+                onClose={handleCloseDialog}
+                onReset={handleReset}
+            >
+                <form
+                    style={{
+                        paddingTop: '10px'
+                    }}
+                    onSubmit={
+                        handleSubmit(onSubmit)
+                    }
+                >
+                    <Grid container rowSpacing={2.5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        <Grid xs={12}>
                             <TextField
                                 label='Email'
                                 variant='outlined'
@@ -96,16 +109,21 @@ export const EditUserDialog = (props) => {
                                 fullWidth
                                 name='email'
                                 value={values.email}
-                                {...register('email', {
-                                    onChange: (e) => handleInputChange(e)
-                                })}
+                                disabled
+                            // {...register("email", {
+                            //     // value: values.email,
+                            //     // disabled: true,
+                            //     // onChange: (e) => handleInputChange(e),
+                            //     // setValueAs: () => dataModalRef.current.email
 
-                                error={!!errors?.email}
-                                helperText={errors?.email ? errors.email.message : null}
+                            // })}
+
+                            // error={!!errors?.email}
+                            // helperText={errors?.email ? errors.email.message : null}
                             />
                         </Grid>
 
-                        <Grid sm={6}>
+                        <Grid xs={6}>
                             <TextField
                                 label='First name'
                                 variant='outlined'
@@ -121,7 +139,7 @@ export const EditUserDialog = (props) => {
                             />
                         </Grid>
 
-                        <Grid sm={6}>
+                        <Grid xs={6}>
                             <TextField
                                 label='Last name'
                                 variant='outlined'
@@ -136,7 +154,7 @@ export const EditUserDialog = (props) => {
                                 helperText={errors?.lastName ? errors.lastName.message : null}
                             />
                         </Grid>
-                        <Grid sm={12}>
+                        <Grid xs={12}>
                             <TextField
                                 label='Address'
                                 variant='outlined'
@@ -153,9 +171,26 @@ export const EditUserDialog = (props) => {
                                 helperText={errors?.address ? errors.address.message : null}
                             />
                         </Grid>
+                        <Grid xs={12}>
+                            <Grid
+                                container
+                                direction="row-reverse"
+                            >
+                                <MuiResetButton
+                                    onClick={handleReset}
+                                    disabled={isSubmit}
+                                />
+
+                                <MuiSubmitButton
+                                    text="save"
+                                    loading={isSubmit}
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </MuiDialog>
-            </form>
+                </form>
+            </MuiDialog>
+
         </React.Fragment>
     )
 }

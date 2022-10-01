@@ -44,10 +44,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontSize: '14px',
     },
 
-    '&.Mui-selected': {
-        backgroundColor: 'yellow'
-    },
-
     '& .MuiDataGrid-footerContainer': {
         display: 'flex',
         alignItems: 'center',
@@ -115,6 +111,8 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
 
     } = props;
 
+    console.log('rowCount', rowCount)
+
     useImperativeHandle(ref, () => ({
         getDataGrid: () => getDataGrid(),
     }));
@@ -131,16 +129,16 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        rowHeight={rowHeight}
-
+                        rowHeight={rowHeight ?? 32}
+                        // getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 
                         pagination
                         paginationMode="server"
-                        page={page}
-                        pageSize={pageSize}
-                        rowCount={rowCount}
+                        page={page ?? 1}
+                        pageSize={pageSize ?? 0}
+                        rowCount={rowCount ?? 0}
                         rowsPerPageOptions={rowsPerPageOptions}
 
                         onPageChange={onPageChange}
@@ -152,15 +150,15 @@ const MuiDataGridFunc = React.forwardRef((props, ref) => {
                     <StyledDataGrid
                         autoHeight
                         headerHeight={headerHeight}
-                        rowHeight={rowHeight}
-
+                        rowHeight={rowHeight ?? 32}
+                        // getRowHeight={() => 'auto'}
                         columns={columns}
                         rows={rows}
 
                         pagination
-                        page={page}
-                        pageSize={pageSize}
-                        rowCount={rowCount}
+                        page={page ?? 1}
+                        pageSize={pageSize ?? 0}
+                        rowCount={rowCount ?? 0}
                         rowsPerPageOptions={rowsPerPageOptions}
 
                         onPageChange={onPageChange}

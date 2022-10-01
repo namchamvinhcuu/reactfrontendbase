@@ -1,18 +1,13 @@
 import {
-    Button, Dialog,
-    DialogActions,
-    DialogContent,
+    Dialog, DialogContent,
     DialogTitle, Fade,
     Grow, IconButton, Paper, Slide, Zoom
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import MuiButtonAsync from './MuiButtonAsync';
 
 import CloseIcon from '@mui/icons-material/Close';
-import RefreshIcon from '@mui/icons-material/Refresh';
 
-import { Box } from '@mui/system';
 import Draggable from 'react-draggable';
 import ShortUniqueId from "short-unique-id";
 
@@ -33,7 +28,7 @@ const Transition_Slide_Down = React.forwardRef(function Transition(props, ref) {
 
 const uid = new ShortUniqueId();
 
-export const MuiDialog = ({ isOpen, onClose, onReset, title, disable_animate, maxWidth, ...others }) => {
+export const MuiDialog = ({ isOpen, onClose, title, disable_animate, maxWidth, disabledCloseBtn, ...others }) => {
 
     const { animate } = others;
 
@@ -66,69 +61,45 @@ export const MuiDialog = ({ isOpen, onClose, onReset, title, disable_animate, ma
             PaperComponent={PaperComponent}
             aria-labelledby={`draggable-dialog-${dialogId}`}
             fullWidth
-            maxWidth={maxWidth}
+            maxWidth={maxWidth ?? 'md'}
             open={isOpen}
             {...others}
         >
-            <form>
-                <Paper>
-                    <DialogTitle style={{ height: 'auto', cursor: 'move' }}>
-                        {title}
-                        <IconButton sx={{
-                            top: '-12px',
-                            right: '-12px',
-                            color: 'cornflowerblue',
-                            borderRadius: '50%',
-                            position: 'absolute',
-                            backgroundColor: '#CCCCCC',
-                            width: '35px',
-                            height: '35px',
-                            '&:hover': {
-                                backgroundColor: 'aliceblue',
-                                color: 'red'
-                            },
-                            '&:disabled': {
-                                backgroundColor: 'aliceblue',
-                            },
-                        }} onClick={handleClose} color="primary" >
-                            <CloseIcon />
-                        </IconButton>
-                    </DialogTitle>
-                </Paper>
+            <DialogTitle
+                sx={{
+                    cursor: 'move',
+                    textTransform: "uppercase",
+                    color: '#0071ba',
+                }}
+            >
+                {title}
+                <IconButton
+                    disabled={disabledCloseBtn}
+                    sx={{
+                        top: '-12px',
+                        right: '-12px',
+                        color: 'cornflowerblue',
+                        borderRadius: '50%',
+                        position: 'absolute',
+                        backgroundColor: '#CCCCCC',
+                        width: '35px',
+                        height: '35px',
+                        '&:hover': {
+                            backgroundColor: 'aliceblue',
+                            color: 'red'
+                        },
+                        '&:disabled': {
+                            backgroundColor: 'aliceblue',
+                        },
+                    }}
+                    onClick={handleClose} color="primary" >
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
 
-                <Box mt={2}>
-                    <DialogContent>
-                        {others.children}
-                    </DialogContent>
-                </Box>
-
-                <DialogActions>
-
-                    <MuiButtonAsync
-                        onCompleteStateChange={state => {
-                            setData({ [dialogId]: { loading: false } })
-                        }}
-
-                        onClick={(e) => {
-                            setData({ [dialogId]: { disable_animate: true, loading: true } })
-                            // return onSave(e);
-                        }}
-                        icon="save"
-                        text="Save"
-                        type='submit'
-                    />
-
-                    <Button
-                        disabled={data[dialogId]?.loading}
-                        variant="outlined"
-                        color="secondary"
-                        onClick={onReset}
-                        startIcon={<RefreshIcon />}
-                    >
-                        reset
-                    </Button>
-                </DialogActions>
-            </form>
+            <DialogContent>
+                {others.children}
+            </DialogContent>
         </Dialog>
     )
 }
